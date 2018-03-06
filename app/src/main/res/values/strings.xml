@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">CS125-Project</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_suggest">Suggestions</string>
+    <string name="title_list">Shopping List</string>
+    <string name="title_history">History</string>
+    <string name="title_activity_list">ListActivity</string>
+    <string name="title_activity_history">HistoryActivity</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="red">Red</string>
+    <string name="blue">Blue</string>
+    <string name="green">Green</string>
+
+    <string name="save_path">StoreItems</string>
+</resources>
