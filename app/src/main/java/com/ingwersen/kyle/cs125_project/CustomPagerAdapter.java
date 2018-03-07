@@ -2,6 +2,7 @@ package com.ingwersen.kyle.cs125_project;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import android.view.ViewGroup;
 
 public class CustomPagerAdapter extends PagerAdapter
 {
+    private String[] mList;
+
     private Context mContext;
 
     public CustomPagerAdapter(Context context) {
@@ -26,6 +29,12 @@ public class CustomPagerAdapter extends PagerAdapter
         LayoutInflater inflater = LayoutInflater.from(mContext);
         ViewGroup layout = (ViewGroup) inflater.inflate(tabsObject.getLayoutResId(), collection, false);
         collection.addView(layout);
+
+        System.out.println("Adding List: " + position);
+        mList = "111,222,333,444,555,666".split(",");
+        RecyclerView list = (RecyclerView) layout.findViewById(R.id.itemlist);
+        list.setAdapter(new CustomRecyclerViewAdapter(mList));
+
         return layout;
     }
 

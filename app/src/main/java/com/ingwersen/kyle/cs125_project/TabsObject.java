@@ -7,7 +7,7 @@ package com.ingwersen.kyle.cs125_project;
 public enum TabsObject
 {
     SUGGESTIONS(R.string.title_suggest, R.layout.view_suggest),
-    LIST(R.string.title_list, R.layout.view_list),
+    LIST(R.string.title_list, R.layout.view_cart),
     HISTORY(R.string.title_history, R.layout.view_history);
 
     private int mTitleResId;

@@ -1,29 +1,38 @@
 package com.ingwersen.kyle.cs125_project;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.ingwersen.kyle.cs125_project.dummy.DummyContent;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity
+        implements SuggestFragment.OnListFragmentInteractionListener, CartFragment.OnListFragmentInteractionListener, HistoryFragment.OnListFragmentInteractionListener
 {
+    private FragmentPagerAdapter mFragmentPagerAdapter;
 
     private BottomNavigationView mNavView;
     private ViewPager mViewPager;
-    private ListView mListViewSuggest;
+    private RecyclerView mSuggestRecylerView;
 
     private ArrayList<StoreItem> mStoreItems;
-    private ArrayList<String> list;
+    private String[] list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -36,12 +45,11 @@ public class MainActivity extends AppCompatActivity
         mNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
-        mViewPager.setAdapter(new CustomPagerAdapter(this));
-        mViewPager.addOnPageChangeListener(mOnPageChangeListener);
+        mFragmentPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), this);
+        mViewPager.setAdapter(mFragmentPagerAdapter);
 
-        //list = new ArrayList<String>(Arrays.asList("111,222,333,444,555,666".split(",")));
-        //mListViewSuggest = (ListView) findViewById(R.id.listview_suggest);
-        //mListViewSuggest.setAdapter(new CustomListAdapter(list, this) );
+        //mViewPager.setAdapter(new CustomPagerAdapter(this));
+        //mViewPager.addOnPageChangeListener(mOnPageChangeListener);
 
         // TODO:
         // 0. Finish StoreItem
@@ -112,5 +120,52 @@ public class MainActivity extends AppCompatActivity
 
         }
     };
+
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item)
+    {
+
+    }
+
+    private static class MyPagerAdapter extends FragmentPagerAdapter
+    {
+        // https://github.com/codepath/android_guides/wiki/ViewPager-with-FragmentPagerAdapter
+        private static int NUM_ITEMS = 3;
+
+        private Context mContext;
+
+        public MyPagerAdapter(FragmentManager fragmentManager, Context context) {
+            super(fragmentManager);
+            mContext = context;
+        }
+
+        // Returns total number of pages
+        @Override
+        public int getCount() {
+            return NUM_ITEMS;
+        }
+
+        @Override
+        public Fragment getItem(int position)
+        {
+            switch (position) {
+                case 0: // Fragment # 0 - This will show FirstFragment
+                    return SuggestFragment.newInstance(1);
+                case 1: // Fragment # 1 - This will show FirstFragment different title
+                    return CartFragment.newInstance(1);
+                case 2: // Fragment # 2 - This will show SecondFragment
+                    return HistoryFragment.newInstance(1);
+                default:
+                    return null;
+            }
+        }
+
+        // Returns the page title for the top indicator
+        @Override
+        public CharSequence getPageTitle(int position) {
+            TabsObject customPagerEnum = TabsObject.values()[position];
+            return mContext.getString(customPagerEnum.getTitleResId());
+        }
+    }
 
 }
