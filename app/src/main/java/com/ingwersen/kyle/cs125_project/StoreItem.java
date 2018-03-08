@@ -1,5 +1,7 @@
 package com.ingwersen.kyle.cs125_project;
 
+import android.os.Parcel;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,7 +10,7 @@ import java.util.Date;
  * Created by kyle on 3/1/2018.
  */
 
-public class StoreItem
+public class StoreItem implements android.os.Parcelable
 {
     private String mName;
     private int mQuantity;
@@ -80,6 +82,30 @@ public class StoreItem
 
     public static void saveList(File path, ArrayList<StoreItem> items) {
         // TODO: Implement
+    }
+
+    @Override
+    public int describeContents()
+    {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i)
+    {
+        parcel.writeString(mName);
+        parcel.writeInt(mQuantity);
+        parcel.writeDouble(mTimeMean);
+        parcel.writeDouble(mTimeVar);
+        parcel.writeSerializable(mTimeLast);
+        parcel.writeLong(mTimeLast.getTime());
+
+        // TODO Write Booleans
+    }
+
+    public void readFromParcel(Parcel parcel)
+    {
+        // TODO
     }
 
     public enum StoreType

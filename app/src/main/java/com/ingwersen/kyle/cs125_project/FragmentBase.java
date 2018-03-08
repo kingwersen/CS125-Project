@@ -30,37 +30,35 @@ public class FragmentBase extends Fragment
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
 
-    protected RecyclerView mRecyclerView;
-    protected ArrayList<StoreItem> mStoreItems;
-
-    public void setStoreItems(ArrayList<StoreItem> storeItems)
-    {
-        mStoreItems = storeItems;
-    }
-
-    // Implement in subclasses.
-    public void updateList() {}
-
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public FragmentBase()
     {
-        // Default empty list.
-        mStoreItems = new ArrayList<>();
+
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static FragmentBase newInstance(ArrayList<StoreItem> storeItems)
+    public static FragmentBase newInstance()
     {
         FragmentBase fragment = new FragmentBase();
+        fragment.setArguments(fragment.args());
+        return fragment;
+    }
+
+    protected Bundle args()
+    {
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, 1);  // Always 1 column.
-        fragment.setArguments(args);
-        fragment.setStoreItems(storeItems);  // Use this or setArguments?
-        return fragment;
+        return args;
+    }
+
+    protected Bundle args(Bundle args)
+    {
+        args.putInt(ARG_COLUMN_COUNT, 1);  // Always 1 column.
+        return args;
     }
 
     @Override
@@ -84,15 +82,15 @@ public class FragmentBase extends Fragment
         if (view instanceof RecyclerView)
         {
             Context context = view.getContext();
-            mRecyclerView = (RecyclerView) view;
+            RecyclerView recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1)
             {
-                mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+                recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else
             {
-                mRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            mRecyclerView.setAdapter(new MyItemRecyclerViewAdapter4(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new MyItemRecyclerViewAdapter4(DummyContent.ITEMS, mListener));
         }
         return view;
     }
