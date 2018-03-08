@@ -16,12 +16,51 @@ public class StoreItem
     private double mTimeVar;
     private Date mTimeLast;
 
-    public StoreItem(String name, int quantity, double timeMean, double timeVar, Date timeLast) {
+    private boolean mInCart;
+    private boolean mVisible;
+
+    public StoreItem(String name)
+    {
+        init(name, 0, 0, 0, new Date(0), false, true);
+    }
+
+    public StoreItem(String name, int quantity, double timeMean, double timeVar, Date timeLast)
+    {
+        init(name, quantity, timeMean, timeVar, timeLast, false, true);
+    }
+
+    public StoreItem(String name, int quantity, double timeMean, double timeVar, Date timeLast, boolean inCart, boolean visible)
+    {
+        init(name, quantity, timeMean, timeVar, timeLast, inCart, visible);
+    }
+
+    private void init(String name, int quantity, double timeMean, double timeVar, Date timeLast, boolean inCart, boolean visible)
+    {
         mName = name;
         mQuantity = quantity;
         mTimeMean = timeMean;
         mTimeVar = timeVar;
         mTimeLast = timeLast;
+
+        mInCart = inCart;
+        mVisible = visible;
+    }
+
+    public void setInCart(boolean value)
+    {
+        mInCart = value;
+    }
+    public void setVisible(boolean value)
+    {
+        mVisible = value;
+    }
+    public boolean getInCart()
+    {
+        return mInCart;
+    }
+    public boolean getVisible()
+    {
+        return mVisible;
     }
 
     public static ArrayList<StoreItem> buildEmptyList()
@@ -36,7 +75,7 @@ public class StoreItem
     public static ArrayList<StoreItem> loadList(File path)
     {
         // TODO: Implement
-        return null;
+        return buildEmptyList();
     }
 
     public static void saveList(File path, ArrayList<StoreItem> items) {

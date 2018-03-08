@@ -34,7 +34,7 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/suggest_text_box"
+                android:id="@+id/filter_box"
                 android:layout_width="273dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -43,27 +43,28 @@
                 android:inputType="textPersonName"/>
 
             <Button
-                android:id="@+id/suggest_text_search_button"
+                android:id="@+id/filter_button"
                 android:layout_width="wrap_content"
                 android:layout_height="46dp"
                 android:layout_weight="1"
                 android:text="S"/>
 
             <Button
-                android:id="@+id/suggest_image_search_button"
+                android:id="@+id/filter_button_voice"
+                android:layout_width="wrap_content"
+                android:layout_height="46dp"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:text="V"/>
+
+            <Button
+                android:id="@+id/filter_button_image"
                 android:layout_width="wrap_content"
                 android:layout_height="46dp"
                 android:layout_weight="1"
                 android:enabled="false"
                 android:text="I"/>
 
-            <Button
-                android:id="@+id/suggest_voice_search_button"
-                android:layout_width="wrap_content"
-                android:layout_height="46dp"
-                android:layout_weight="1"
-                android:enabled="false"
-                android:text="V"/>
         </LinearLayout>
 
         <android.support.v4.view.ViewPager

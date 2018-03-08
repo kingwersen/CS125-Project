@@ -12,6 +12,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,11 +22,11 @@ import android.widget.Toast;
 import com.ingwersen.kyle.cs125_project.dummy.DummyContent;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity
-        implements SuggestFragment.OnListFragmentInteractionListener, CartFragment.OnListFragmentInteractionListener, HistoryFragment.OnListFragmentInteractionListener
+public class MainActivity extends AppCompatActivity implements FragmentBase.OnListFragmentInteractionListener
 {
     private FragmentPagerAdapter mFragmentPagerAdapter;
 
@@ -33,6 +36,8 @@ public class MainActivity extends AppCompatActivity
 
     private ArrayList<StoreItem> mStoreItems;
     private String[] list;
+    private EditText filterBox;
+    private Filter filter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -45,15 +50,21 @@ public class MainActivity extends AppCompatActivity
         mNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
-        mFragmentPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), this);
+        mFragmentPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), this, mStoreItems);
         mViewPager.setAdapter(mFragmentPagerAdapter);
+        mViewPager.addOnPageChangeListener(mOnPageChangeListener);
 
-        //mViewPager.setAdapter(new CustomPagerAdapter(this));
-        //mViewPager.addOnPageChangeListener(mOnPageChangeListener);
+        filter = new Filter();
+        filterBox = (EditText) findViewById(R.id.filter_box);
+        Button filterButton = (Button) findViewById(R.id.filter_button);
+        filterButton.setOnClickListener(mOnClickListener);
+
+        loadStoreItems();
+
 
         // TODO:
         // 0. Finish StoreItem
-        // 1. Add Filter Capabilities
+        // 1. Finish Filter Capabilities
         // 2. Voice Input: https://developer.android.com/training/wearables/apps/voice.html
         // 3. Image Input
         // 4. Build Recommender
@@ -69,6 +80,11 @@ public class MainActivity extends AppCompatActivity
     {
         File path = new File(getFilesDir(), getString(R.string.save_path));
         StoreItem.saveList(path, mStoreItems);
+    }
+
+    private void applyFilter()
+    {
+        filter.apply(filterBox.getText().toString(), mStoreItems);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -121,6 +137,15 @@ public class MainActivity extends AppCompatActivity
         }
     };
 
+    private View.OnClickListener mOnClickListener = new  View.OnClickListener()
+    {
+        @Override
+        public void onClick(View v)
+        {
+            applyFilter();
+        }
+    };
+
     @Override
     public void onListFragmentInteraction(DummyContent.DummyItem item)
     {
@@ -134,9 +159,12 @@ public class MainActivity extends AppCompatActivity
 
         private Context mContext;
 
-        public MyPagerAdapter(FragmentManager fragmentManager, Context context) {
+        private ArrayList<StoreItem> mStoreItems;
+
+        public MyPagerAdapter(FragmentManager fragmentManager, Context context, ArrayList<StoreItem> storeItems) {
             super(fragmentManager);
             mContext = context;
+            mStoreItems = storeItems;
         }
 
         // Returns total number of pages
@@ -149,12 +177,12 @@ public class MainActivity extends AppCompatActivity
         public Fragment getItem(int position)
         {
             switch (position) {
-                case 0: // Fragment # 0 - This will show FirstFragment
-                    return SuggestFragment.newInstance(1);
-                case 1: // Fragment # 1 - This will show FirstFragment different title
-                    return CartFragment.newInstance(1);
-                case 2: // Fragment # 2 - This will show SecondFragment
-                    return HistoryFragment.newInstance(1);
+                case 0:
+                    return FragmentSuggest.newInstance(mStoreItems);
+                case 1:
+                    return FragmentCart.newInstance(mStoreItems);
+                case 2:
+                    return FragmentHistory.newInstance(mStoreItems);
                 default:
                     return null;
             }
@@ -167,5 +195,6 @@ public class MainActivity extends AppCompatActivity
             return mContext.getString(customPagerEnum.getTitleResId());
         }
     }
+
 
 }
