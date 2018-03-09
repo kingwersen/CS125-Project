@@ -6,23 +6,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.ingwersen.kyle.cs125_project.SuggestFragment.OnListFragmentInteractionListener;
-import com.ingwersen.kyle.cs125_project.dummy.DummyContent.DummyItem;
+import com.ingwersen.kyle.cs125_project.dummy.DataModel;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
+ * {@link RecyclerView.Adapter} that can display a {@link DataModel.DataListItem} and makes a call to the
+ * specified {@link SuggestFragment.OnSuggestFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder>
+public class SuggestRecyclerViewAdapter extends RecyclerView.Adapter<SuggestRecyclerViewAdapter.ViewHolder>
 {
 
-    private final List<DummyItem> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private final List<DataModel.DataListItem> mValues;
+    private final SuggestFragment.OnSuggestFragmentInteractionListener mListener;
 
-    public MyItemRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener)
+    public SuggestRecyclerViewAdapter(List<DataModel.DataListItem> items, SuggestFragment.OnSuggestFragmentInteractionListener listener)
     {
         mValues = items;
         mListener = listener;
@@ -52,7 +51,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
                 {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mListener.onSuggestFragmentInteraction(holder.mItem);
                 }
             }
         });
@@ -69,7 +68,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
-        public DummyItem mItem;
+        public DataModel.DataListItem mItem;
 
         public ViewHolder(View view)
         {

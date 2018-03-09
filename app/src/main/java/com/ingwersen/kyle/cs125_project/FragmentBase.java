@@ -106,7 +106,7 @@ public class FragmentBase extends Fragment
         } else
         {
             throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
+                    + " must implement OnSuggestFragmentInteractionListener");
         }
     }
 

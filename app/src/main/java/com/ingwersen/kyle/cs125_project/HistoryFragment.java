@@ -10,15 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ingwersen.kyle.cs125_project.dummy.DummyContent;
-import com.ingwersen.kyle.cs125_project.dummy.DummyContent.DummyItem;
-
-import java.util.List;
+import com.ingwersen.kyle.cs125_project.dummy.DataModel;
+import com.ingwersen.kyle.cs125_project.dummy.DataModel.DataListItem;
 
 /**
  * A fragment representing a list of Items.
  * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
+ * Activities containing this fragment MUST implement the {@link OnHistoryFragmentInteractionListener}
  * interface.
  */
 public class HistoryFragment extends Fragment
@@ -28,7 +26,7 @@ public class HistoryFragment extends Fragment
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
-    private OnListFragmentInteractionListener mListener;
+    private OnHistoryFragmentInteractionListener mListener;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -78,7 +76,7 @@ public class HistoryFragment extends Fragment
             {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter3(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new HistoryRecyclerViewAdapter(DataModel.ITEMS, mListener));
         }
         return view;
     }
@@ -88,13 +86,13 @@ public class HistoryFragment extends Fragment
     public void onAttach(Context context)
     {
         super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener)
+        if (context instanceof OnHistoryFragmentInteractionListener)
         {
-            mListener = (OnListFragmentInteractionListener) context;
+            mListener = (OnHistoryFragmentInteractionListener) context;
         } else
         {
             throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
+                    + " must implement OnSuggestFragmentInteractionListener");
         }
     }
 
@@ -115,9 +113,9 @@ public class HistoryFragment extends Fragment
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnListFragmentInteractionListener
+    public interface OnHistoryFragmentInteractionListener
     {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onHistoryFragmentInteraction(DataListItem item);
     }
 }

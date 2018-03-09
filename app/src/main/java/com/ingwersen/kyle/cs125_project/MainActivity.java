@@ -1,7 +1,6 @@
 package com.ingwersen.kyle.cs125_project;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -15,18 +14,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.ingwersen.kyle.cs125_project.dummy.DummyContent;
+import com.ingwersen.kyle.cs125_project.dummy.DataModel;
+import com.ingwersen.kyle.cs125_project.dummy.DataModel.DataListItem;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity implements FragmentBase.OnListFragmentInteractionListener
+public class MainActivity extends AppCompatActivity implements
+        SuggestFragment.OnSuggestFragmentInteractionListener,
+        CartFragment.OnCartFragmentInteractionListener,
+        HistoryFragment.OnHistoryFragmentInteractionListener
 {
     private FragmentPagerAdapter mFragmentPagerAdapter;
 
@@ -147,9 +145,21 @@ public class MainActivity extends AppCompatActivity implements FragmentBase.OnLi
     };
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item)
+    public void onSuggestFragmentInteraction(DataListItem item)
     {
+        // TODO: Move to Cart
+    }
 
+    @Override
+    public void onCartFragmentInteraction(DataListItem item)
+    {
+        // TODO: Move to Suggestions
+    }
+
+    @Override
+    public void onHistoryFragmentInteraction(DataListItem item)
+    {
+        // TODO: Move to Cart
     }
 
     private static class MyPagerAdapter extends FragmentPagerAdapter
@@ -178,11 +188,11 @@ public class MainActivity extends AppCompatActivity implements FragmentBase.OnLi
         {
             switch (position) {
                 case 0:
-                    return FragmentSuggest.newInstance(mStoreItems);
+                    return SuggestFragment.newInstance(1);
                 case 1:
-                    return FragmentCart.newInstance(mStoreItems);
+                    return CartFragment.newInstance(1);
                 case 2:
-                    return FragmentHistory.newInstance(mStoreItems);
+                    return HistoryFragment.newInstance(1);
                 default:
                     return null;
             }

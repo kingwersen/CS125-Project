@@ -85,8 +85,8 @@ public class FragmentSuggest2 extends Fragment
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
             recyclerView.setAdapter(new MyStoreItemRecyclerViewAdapter(DummyContent.ITEMS, mListener));
-            mArrayAdapter = new ArrayAdapter<StoreItem>(this, android.R.layout.simple_list_item_1, mList);
-            recyclerView.setAdapter(mArrayAdapter);
+            //mArrayAdapter = new ArrayAdapter<StoreItem>(this, android.R.layout.simple_list_item_1, mList);
+            //recyclerView.setAdapter(mArrayAdapter);
         }
         return view;
     }
@@ -102,7 +102,7 @@ public class FragmentSuggest2 extends Fragment
         } else
         {
             throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
+                    + " must implement OnSuggestFragmentInteractionListener");
         }
     }
 

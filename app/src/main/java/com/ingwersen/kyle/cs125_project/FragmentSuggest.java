@@ -16,6 +16,7 @@ public class FragmentSuggest extends FragmentListBase<StoreItem>
     {
     }
 
+    /*
     public static FragmentSuggest newInstance(ArrayList<StoreItem> storeItems)
     {
         FragmentSuggest fragment = new FragmentSuggest();
@@ -27,5 +28,6 @@ public class FragmentSuggest extends FragmentListBase<StoreItem>
     public void updateList()
     {
     }
+    */
 
 }
