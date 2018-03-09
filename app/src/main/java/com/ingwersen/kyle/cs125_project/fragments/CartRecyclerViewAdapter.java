@@ -1,4 +1,4 @@
-package com.ingwersen.kyle.cs125_project;
+package com.ingwersen.kyle.cs125_project.fragments;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,23 +6,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.ingwersen.kyle.cs125_project.CartFragment.OnCartFragmentInteractionListener;
-import com.ingwersen.kyle.cs125_project.dummy.DataModel.DataListItem;
+import com.ingwersen.kyle.cs125_project.R;
+import com.ingwersen.kyle.cs125_project.model.DataModel.DataListItem;
 
 import java.util.List;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link DataListItem} and makes a call to the
- * specified {@link OnCartFragmentInteractionListener}.
+ * specified {@link CartFragment.OnCartFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerViewAdapter.ViewHolder>
 {
 
     private final List<DataListItem> mValues;
-    private final OnCartFragmentInteractionListener mListener;
+    private final CartFragment.OnCartFragmentInteractionListener mListener;
 
-    public CartRecyclerViewAdapter(List<DataListItem> items, OnCartFragmentInteractionListener listener)
+    public CartRecyclerViewAdapter(List<DataListItem> items, CartFragment.OnCartFragmentInteractionListener listener)
     {
         mValues = items;
         mListener = listener;
@@ -32,7 +32,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_item2, parent, false);
+                .inflate(R.layout.fragment_cart_item, parent, false);
         return new ViewHolder(view);
     }
 

@@ -1,4 +1,4 @@
-package com.ingwersen.kyle.cs125_project;
+package com.ingwersen.kyle.cs125_project.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,8 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ingwersen.kyle.cs125_project.dummy.DataModel;
-import com.ingwersen.kyle.cs125_project.dummy.DataModel.DataListItem;
+import com.ingwersen.kyle.cs125_project.R;
+import com.ingwersen.kyle.cs125_project.model.DataModel;
+import com.ingwersen.kyle.cs125_project.model.DataModel.DataListItem;
 
 /**
  * A fragment representing a list of Items.
@@ -62,7 +63,7 @@ public class HistoryFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.fragment_item_list3, container, false);
+        View view = inflater.inflate(R.layout.fragment_history_list, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView)

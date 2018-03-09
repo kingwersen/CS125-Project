@@ -4,11 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/list"
-    android:name="com.ingwersen.kyle.cs125_project.SuggestFragment"
+    android:name="com.ingwersen.kyle.cs125_project.CartFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="com.ingwersen.kyle.cs125_project.SuggestFragment"
-    tools:listitem="@layout/fragment_item"/>
+    tools:context="com.ingwersen.kyle.cs125_project.fragments.CartFragment"
+    tools:listitem="@layout/fragment_cart_item"/>

@@ -10,6 +10,8 @@ import java.util.List;
 
 public class Filter
 {
+    /*
+    TODO: Update with DataListItem
     public void apply(String filter, ArrayList<StoreItem> items)
     {
         // Retrieve a list of all words the user requested.
@@ -27,4 +29,5 @@ public class Filter
             items.get(i).setVisible(terms.contains(items.get(i).toString()));
         }
     }
+    */
 }

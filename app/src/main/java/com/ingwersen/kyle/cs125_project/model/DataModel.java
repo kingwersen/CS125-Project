@@ -1,4 +1,4 @@
-package com.ingwersen.kyle.cs125_project.dummy;
+package com.ingwersen.kyle.cs125_project.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;

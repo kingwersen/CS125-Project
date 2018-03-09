@@ -1,4 +1,4 @@
-package com.ingwersen.kyle.cs125_project;
+package com.ingwersen.kyle.cs125_project.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,46 +9,39 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
-import com.ingwersen.kyle.cs125_project.dummy.DummyContent;
-import com.ingwersen.kyle.cs125_project.dummy.DummyContent.DummyItem;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.ingwersen.kyle.cs125_project.R;
+import com.ingwersen.kyle.cs125_project.model.DataModel;
+import com.ingwersen.kyle.cs125_project.model.DataModel.DataListItem;
 
 /**
  * A fragment representing a list of Items.
  * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
+ * Activities containing this fragment MUST implement the {@link OnSuggestFragmentInteractionListener}
  * interface.
  */
-public class FragmentSuggest2 extends Fragment
+public class SuggestFragment extends Fragment
 {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
-    private OnListFragmentInteractionListener mListener;
-
-    private ArrayList<StoreItem> mList;
-    private RecyclerView mRecyclerView;
-    private ArrayAdapter<StoreItem> mArrayAdapter;
+    private OnSuggestFragmentInteractionListener mListener;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public FragmentSuggest2()
+    public SuggestFragment()
     {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static FragmentSuggest2 newInstance(int columnCount)
+    public static SuggestFragment newInstance(int columnCount)
     {
-        FragmentSuggest2 fragment = new FragmentSuggest2();
+        SuggestFragment fragment = new SuggestFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -70,7 +63,7 @@ public class FragmentSuggest2 extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.fragment_storeitem_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_suggest_list, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView)
@@ -84,9 +77,7 @@ public class FragmentSuggest2 extends Fragment
             {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyStoreItemRecyclerViewAdapter(DummyContent.ITEMS, mListener));
-            //mArrayAdapter = new ArrayAdapter<StoreItem>(this, android.R.layout.simple_list_item_1, mList);
-            //recyclerView.setAdapter(mArrayAdapter);
+            recyclerView.setAdapter(new SuggestRecyclerViewAdapter(DataModel.ITEMS, mListener));
         }
         return view;
     }
@@ -96,9 +87,9 @@ public class FragmentSuggest2 extends Fragment
     public void onAttach(Context context)
     {
         super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener)
+        if (context instanceof OnSuggestFragmentInteractionListener)
         {
-            mListener = (OnListFragmentInteractionListener) context;
+            mListener = (OnSuggestFragmentInteractionListener) context;
         } else
         {
             throw new RuntimeException(context.toString()
@@ -123,9 +114,9 @@ public class FragmentSuggest2 extends Fragment
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnListFragmentInteractionListener
+    public interface OnSuggestFragmentInteractionListener
     {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onSuggestFragmentInteraction(DataListItem item);
     }
 }

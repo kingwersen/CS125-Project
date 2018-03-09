@@ -1,4 +1,4 @@
-package com.ingwersen.kyle.cs125_project;
+package com.ingwersen.kyle.cs125_project.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,55 +10,41 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ingwersen.kyle.cs125_project.dummy.DummyContent;
-import com.ingwersen.kyle.cs125_project.dummy.DummyContent.DummyItem;
-
-import java.util.ArrayList;
+import com.ingwersen.kyle.cs125_project.R;
+import com.ingwersen.kyle.cs125_project.model.DataModel;
 
 /**
  * A fragment representing a list of Items.
  * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
+ * Activities containing this fragment MUST implement the {@link OnCartFragmentInteractionListener}
  * interface.
  */
-public class FragmentBase extends Fragment
+public class CartFragment extends Fragment
 {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
-    private OnListFragmentInteractionListener mListener;
+    private OnCartFragmentInteractionListener mListener;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public FragmentBase()
+    public CartFragment()
     {
-
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static FragmentBase newInstance()
+    public static CartFragment newInstance(int columnCount)
     {
-        FragmentBase fragment = new FragmentBase();
-        fragment.setArguments(fragment.args());
-        return fragment;
-    }
-
-    protected Bundle args()
-    {
+        CartFragment fragment = new CartFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, 1);  // Always 1 column.
-        return args;
-    }
-
-    protected Bundle args(Bundle args)
-    {
-        args.putInt(ARG_COLUMN_COUNT, 1);  // Always 1 column.
-        return args;
+        args.putInt(ARG_COLUMN_COUNT, columnCount);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -76,7 +62,7 @@ public class FragmentBase extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.fragment_item_list4, container, false);
+        View view = inflater.inflate(R.layout.fragment_cart_list, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView)
@@ -90,7 +76,7 @@ public class FragmentBase extends Fragment
             {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter4(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new CartRecyclerViewAdapter(DataModel.ITEMS, mListener));
         }
         return view;
     }
@@ -100,9 +86,9 @@ public class FragmentBase extends Fragment
     public void onAttach(Context context)
     {
         super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener)
+        if (context instanceof OnCartFragmentInteractionListener)
         {
-            mListener = (OnListFragmentInteractionListener) context;
+            mListener = (OnCartFragmentInteractionListener) context;
         } else
         {
             throw new RuntimeException(context.toString()
@@ -127,9 +113,9 @@ public class FragmentBase extends Fragment
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnListFragmentInteractionListener
+    public interface OnCartFragmentInteractionListener
     {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onCartFragmentInteraction(DataModel.DataListItem item);
     }
 }

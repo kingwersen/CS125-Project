@@ -15,11 +15,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.ingwersen.kyle.cs125_project.dummy.DataModel;
-import com.ingwersen.kyle.cs125_project.dummy.DataModel.DataListItem;
-
-import java.io.File;
-import java.util.ArrayList;
+import com.ingwersen.kyle.cs125_project.fragments.CartFragment;
+import com.ingwersen.kyle.cs125_project.fragments.HistoryFragment;
+import com.ingwersen.kyle.cs125_project.fragments.SuggestFragment;
+import com.ingwersen.kyle.cs125_project.model.DataModel.DataListItem;
 
 public class MainActivity extends AppCompatActivity implements
         SuggestFragment.OnSuggestFragmentInteractionListener,
@@ -32,8 +31,8 @@ public class MainActivity extends AppCompatActivity implements
     private ViewPager mViewPager;
     private RecyclerView mSuggestRecylerView;
 
-    private ArrayList<StoreItem> mStoreItems;
-    private String[] list;
+    //private ArrayList<StoreItem> mStoreItems; TODO: REMOVE
+    //private String[] list;
     private EditText filterBox;
     private Filter filter;
 
@@ -48,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements
         mNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
-        mFragmentPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), this, mStoreItems);
+        mFragmentPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), this);
         mViewPager.setAdapter(mFragmentPagerAdapter);
         mViewPager.addOnPageChangeListener(mOnPageChangeListener);
 
@@ -70,20 +69,23 @@ public class MainActivity extends AppCompatActivity implements
 
     private void loadStoreItems()
     {
-        File path = new File(getFilesDir(), getString(R.string.save_path));
-        mStoreItems = StoreItem.loadList(path);
+        // TODO: Use DataListItems
+        //File path = new File(getFilesDir(), getString(R.string.save_path));
+        //mStoreItems = StoreItem.loadList(path);
     }
 
     private void saveStoreItems()
     {
-        File path = new File(getFilesDir(), getString(R.string.save_path));
-        StoreItem.saveList(path, mStoreItems);
+        // TODO: Use DataListItems
+        //File path = new File(getFilesDir(), getString(R.string.save_path));
+        //StoreItem.saveList(path, mStoreItems);
     }
 
-    private void applyFilter()
-    {
-        filter.apply(filterBox.getText().toString(), mStoreItems);
-    }
+    // TODO: USE DataListItems
+    //private void applyFilter()
+    //{
+    //    filter.apply(filterBox.getText().toString(), mStoreItems);
+    //}
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener()
@@ -140,26 +142,27 @@ public class MainActivity extends AppCompatActivity implements
         @Override
         public void onClick(View v)
         {
-            applyFilter();
+            // TODO: Update Function Above
+            //applyFilter();
         }
     };
 
     @Override
     public void onSuggestFragmentInteraction(DataListItem item)
     {
-        // TODO: Move to Cart
+        // TODO: Move Item to Cart
     }
 
     @Override
     public void onCartFragmentInteraction(DataListItem item)
     {
-        // TODO: Move to Suggestions
+        // TODO: Move Item to Suggestions
     }
 
     @Override
     public void onHistoryFragmentInteraction(DataListItem item)
     {
-        // TODO: Move to Cart
+        // TODO: Move Item to Cart
     }
 
     private static class MyPagerAdapter extends FragmentPagerAdapter
@@ -169,12 +172,9 @@ public class MainActivity extends AppCompatActivity implements
 
         private Context mContext;
 
-        private ArrayList<StoreItem> mStoreItems;
-
-        public MyPagerAdapter(FragmentManager fragmentManager, Context context, ArrayList<StoreItem> storeItems) {
+        public MyPagerAdapter(FragmentManager fragmentManager, Context context) {
             super(fragmentManager);
             mContext = context;
-            mStoreItems = storeItems;
         }
 
         // Returns total number of pages
@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements
         // Returns the page title for the top indicator
         @Override
         public CharSequence getPageTitle(int position) {
-            TabsObject customPagerEnum = TabsObject.values()[position];
+            Navigation customPagerEnum = Navigation.values()[position];
             return mContext.getString(customPagerEnum.getTitleResId());
         }
     }
