@@ -97,15 +97,20 @@ public class StoreItem implements android.os.Parcelable
         parcel.writeInt(mQuantity);
         parcel.writeDouble(mTimeMean);
         parcel.writeDouble(mTimeVar);
-        parcel.writeSerializable(mTimeLast);
         parcel.writeLong(mTimeLast.getTime());
-
-        // TODO Write Booleans
+        parcel.writeInt(mInCart ? 1 : 0);
+        parcel.writeInt(mVisible ? 1 : 0);
     }
 
     public void readFromParcel(Parcel parcel)
     {
-        // TODO
+        mName = parcel.readString();
+        mQuantity = parcel.readInt();
+        mTimeMean = parcel.readDouble();
+        mTimeVar = parcel.readDouble();
+        mTimeLast = new Date(parcel.readLong());
+        mInCart = parcel.readInt() != 0;
+        mVisible = parcel.readInt() != 0;
     }
 
     public enum StoreType

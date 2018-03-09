@@ -3,15 +3,14 @@ package com.ingwersen.kyle.cs125_project;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ArrayAdapter;
 
+import java.util.ArrayList;
+
 /**
  * Created by kyle on 3/8/2018.
  */
 
-public class FragmentSuggest extends FragmentListBase
+public class FragmentSuggest extends FragmentListBase<StoreItem>
 {
-
-
-    ArrayAdapter<StoreItem> mStoreItemAdapter;
 
     public FragmentSuggest()
     {
@@ -19,7 +18,9 @@ public class FragmentSuggest extends FragmentListBase
 
     public static FragmentSuggest newInstance(ArrayList<StoreItem> storeItems)
     {
-        return FragmentBase.newInstance();
+        FragmentSuggest fragment = new FragmentSuggest();
+        fragment.setArguments(fragment.args(storeItems));
+        return fragment;
     }
 
     @Override
