@@ -4,9 +4,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ingwersen.kyle.cs125_project.R;
+import com.ingwersen.kyle.cs125_project.model.DataModel;
 import com.ingwersen.kyle.cs125_project.model.DataModel.DataListItem;
 
 import java.util.List;
@@ -41,7 +43,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
     {
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mContentView.setText(mValues.get(position).name);
 
         holder.mView.setOnClickListener(new View.OnClickListener()
         {
@@ -53,6 +55,8 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
                     mListener.onCartFragmentInteraction(holder.mItem);
+                    holder.setVisibility(holder.mItem.state == DataListItem.State.IN_CART
+                            ? View.VISIBLE : View.GONE);
                 }
             }
         });
@@ -76,7 +80,12 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
             super(view);
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mContentView = (TextView) view.findViewById(R.id.name);
+        }
+
+        public void setVisibility(int value)
+        {
+            mView.setVisibility(value);
         }
 
         @Override

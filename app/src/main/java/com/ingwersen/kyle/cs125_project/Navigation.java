@@ -6,8 +6,8 @@ package com.ingwersen.kyle.cs125_project;
 
 public enum Navigation
 {
-    SUGGESTIONS(R.string.title_suggest, R.layout.fragment_suggest),
-    LIST(R.string.title_list, R.layout.fragment_cart),
+    SUGGEST(R.string.title_suggest, R.layout.fragment_suggest),
+    CART(R.string.title_cart, R.layout.fragment_cart),
     HISTORY(R.string.title_history, R.layout.fragment_history);
 
     private int mTitleResId;

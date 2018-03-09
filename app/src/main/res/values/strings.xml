@@ -4,7 +4,7 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_suggest">Suggestions</string>
-    <string name="title_list">Shopping List</string>
+    <string name="title_cart">Shopping List</string>
     <string name="title_history">History</string>
     <string name="title_activity_list">ListActivity</string>
     <string name="title_activity_history">HistoryActivity</string>

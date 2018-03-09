@@ -137,12 +137,12 @@ public class MainActivity extends AppCompatActivity implements
         }
     };
 
-    private View.OnClickListener mOnClickListener = new  View.OnClickListener()
+    private View.OnClickListener mOnClickListener = new View.OnClickListener()
     {
         @Override
         public void onClick(View v)
         {
-            // TODO: Update Function Above
+            // TODO: applyFilter()
             //applyFilter();
         }
     };
@@ -151,18 +151,21 @@ public class MainActivity extends AppCompatActivity implements
     public void onSuggestFragmentInteraction(DataListItem item)
     {
         // TODO: Move Item to Cart
+        item.state = DataListItem.State.IN_CART;
     }
 
     @Override
     public void onCartFragmentInteraction(DataListItem item)
     {
         // TODO: Move Item to Suggestions
+        item.state = DataListItem.State.SUGGESTED;
     }
 
     @Override
     public void onHistoryFragmentInteraction(DataListItem item)
     {
         // TODO: Move Item to Cart
+        item.state = DataListItem.State.IN_CART;
     }
 
     private static class MyPagerAdapter extends FragmentPagerAdapter

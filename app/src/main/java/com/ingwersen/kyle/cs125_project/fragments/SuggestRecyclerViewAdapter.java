@@ -7,22 +7,22 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ingwersen.kyle.cs125_project.R;
-import com.ingwersen.kyle.cs125_project.model.DataModel;
+import com.ingwersen.kyle.cs125_project.model.DataModel.DataListItem;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DataModel.DataListItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link DataListItem} and makes a call to the
  * specified {@link SuggestFragment.OnSuggestFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class SuggestRecyclerViewAdapter extends RecyclerView.Adapter<SuggestRecyclerViewAdapter.ViewHolder>
 {
 
-    private final List<DataModel.DataListItem> mValues;
+    private final List<DataListItem> mValues;
     private final SuggestFragment.OnSuggestFragmentInteractionListener mListener;
 
-    public SuggestRecyclerViewAdapter(List<DataModel.DataListItem> items, SuggestFragment.OnSuggestFragmentInteractionListener listener)
+    public SuggestRecyclerViewAdapter(List<DataListItem> items, SuggestFragment.OnSuggestFragmentInteractionListener listener)
     {
         mValues = items;
         mListener = listener;
@@ -41,7 +41,7 @@ public class SuggestRecyclerViewAdapter extends RecyclerView.Adapter<SuggestRecy
     {
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mContentView.setText(mValues.get(position).name);
 
         holder.mView.setOnClickListener(new View.OnClickListener()
         {
@@ -53,6 +53,8 @@ public class SuggestRecyclerViewAdapter extends RecyclerView.Adapter<SuggestRecy
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
                     mListener.onSuggestFragmentInteraction(holder.mItem);
+                    holder.setVisibility(holder.mItem.state == DataListItem.State.SUGGESTED
+                            ? View.VISIBLE : View.GONE);
                 }
             }
         });
@@ -69,14 +71,20 @@ public class SuggestRecyclerViewAdapter extends RecyclerView.Adapter<SuggestRecy
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
-        public DataModel.DataListItem mItem;
+        public DataListItem mItem;
 
         public ViewHolder(View view)
         {
             super(view);
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mContentView = (TextView) view.findViewById(R.id.name);
+        }
+
+        public void setVisibility(int value)
+        {
+            mView.setVisibility(value);
+            mView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
         }
 
         @Override

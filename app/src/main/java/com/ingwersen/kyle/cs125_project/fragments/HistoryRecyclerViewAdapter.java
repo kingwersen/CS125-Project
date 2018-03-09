@@ -41,7 +41,7 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
     {
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mContentView.setText(mValues.get(position).name);
 
         holder.mView.setOnClickListener(new View.OnClickListener()
         {
@@ -76,7 +76,13 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
             super(view);
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mContentView = (TextView) view.findViewById(R.id.name);
+        }
+
+        public void setVisibility(int value)
+        {
+            mView.setVisibility(value);
+            mView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
         }
 
         @Override

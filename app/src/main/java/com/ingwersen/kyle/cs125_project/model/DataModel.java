@@ -1,12 +1,13 @@
 package com.ingwersen.kyle.cs125_project.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Helper class for providing sample content for user interfaces created by
+ * Helper class for providing sample name for user interfaces created by
  * Android template wizards.
  * <p>
  * TODO: Replace all uses of this class before publishing your app.
@@ -26,10 +27,10 @@ public class DataModel
 
     private static final int COUNT = 25;
 
-    // TODO: BUILD ACTUAL ITEMS
     static
     {
         // Add some sample items.
+        // TODO: BUILD ACTUAL ITEMS
         for (int i = 1; i <= COUNT; i++)
         {
             addItem(createDataListItem(i));
@@ -42,9 +43,9 @@ public class DataModel
         ITEM_MAP.put(item.id, item);
     }
 
-    // TODO: BUILD ACTUAL ITEMS
     private static DataListItem createDataListItem(int position)
     {
+        // TODO: BUILD ACTUAL ITEMS
         return new DataListItem(String.valueOf(position), "Item " + position, makeDetails(position));
     }
 
@@ -60,25 +61,37 @@ public class DataModel
     }
 
     /**
-     * A dummy item representing a piece of content.
+     * A dummy item representing a piece of name.
      */
     public static class DataListItem
     {
         public final String id;
-        public final String content;
+        public final String name;
         public final String details;
 
-        public DataListItem(String id, String content, String details)
+        public int quantity;
+        public double timeMean;
+        public double timeVar;
+        public Date timeLast;
+
+        public State state;
+
+        public DataListItem(String id, String name, String details)
         {
             this.id = id;
-            this.content = content;
+            this.name = name;
             this.details = details;
         }
 
         @Override
         public String toString()
         {
-            return "hi";//return content;
+            return name;
+        }
+
+        public enum State
+        {
+            SUGGESTED, IN_CART, HIDDEN;
         }
     }
 }
