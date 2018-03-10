@@ -62,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements
         mViewPager.setAdapter(mFragmentPagerAdapter);
         mViewPager.addOnPageChangeListener(mOnPageChangeListener);
         mViewPager.setOffscreenPageLimit(MainPagerAdapter.NUM_ITEMS - 1);  // Don't delete pages.
+        mViewPager.setPageMargin(20);
+        //mViewPager.setPageMarginDrawable(R.color.colorPrimaryDark);
 
         filterBox = (EditText) findViewById(R.id.filter_box);
         filterBox.addTextChangedListener(mOnFilterChangeListener);
