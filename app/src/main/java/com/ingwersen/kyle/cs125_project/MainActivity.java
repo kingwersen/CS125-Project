@@ -1,7 +1,6 @@
 package com.ingwersen.kyle.cs125_project;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,10 +13,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.support.v7.widget.Toolbar;
 
 import com.ingwersen.kyle.cs125_project.fragments.CartFragment;
 import com.ingwersen.kyle.cs125_project.fragments.HistoryFragment;
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements
 {
     private MainPagerAdapter mFragmentPagerAdapter;
 
+    private Toolbar mToolbar;
     private BottomNavigationView mNavView;
     private ViewPager mViewPager;
     private RecyclerView mSuggestRecylerView;
@@ -48,6 +51,9 @@ public class MainActivity extends AppCompatActivity implements
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
 
         mNavView = (BottomNavigationView) findViewById(R.id.navigation);
         mNavView.setSelectedItemId(R.id.navigation_suggest);
@@ -70,13 +76,20 @@ public class MainActivity extends AppCompatActivity implements
 
 
         loadStoreItems();
-        System.out.println("APPLICATION START");
         setActionBar(0);
 
 
         // TODO:
         // 2. Voice Input: https://developer.android.com/training/wearables/apps/voice.html
         // 3. Image Input
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options, menu);
+        return true;
     }
 
     private void loadStoreItems()
@@ -93,12 +106,6 @@ public class MainActivity extends AppCompatActivity implements
         //StoreItem.saveList(path, mStoreItems);
     }
 
-    // TODO: USE DataListItems
-    //private void applyFilter()
-    //{
-    //    filter.apply(filterBox.getText().toString(), mStoreItems);
-    //}
-
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener()
     {
@@ -112,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements
                     mViewPager.setCurrentItem(0);
                     setActionBar(0);
                     break;
-                case R.id.navigation_list:
+                case R.id.navigation_cart:
                     mViewPager.setCurrentItem(1);
                     setActionBar(1);
                     break;
@@ -163,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements
                 break;
             case 1:
                 getSupportActionBar().setTitle(R.string.title_cart);
-                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getColor(R.color.colorCart)));
+                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getColor(R.color.colorCart2)));
                 break;
             case 2:
                 getSupportActionBar().setTitle(R.string.title_history);

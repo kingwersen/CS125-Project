@@ -26,7 +26,6 @@ public class HistoryListFilter extends ListFilter<DataListItem>
     @Override
     public void update()
     {
-        System.out.println("UPDATE HISTORY VIEW");
         mOutput.clear();
         for (DataListItem item : mValues)
         {
