@@ -46,7 +46,7 @@ public class DataModel
     private static DataListItem createDataListItem(int position)
     {
         // TODO: BUILD ACTUAL ITEMS
-        return new DataListItem(String.valueOf(position), "Item " + position, makeDetails(position));
+        return new DataListItem(String.valueOf(position), "Item" + position, makeDetails(position));
     }
 
     private static String makeDetails(int position)
@@ -74,13 +74,14 @@ public class DataModel
         public double timeVar;
         public Date timeLast;
 
-        public State state;
+        public DataItemState state;
 
         public DataListItem(String id, String name, String details)
         {
             this.id = id;
             this.name = name;
             this.details = details;
+            this.state = DataItemState.SUGGESTED;
         }
 
         @Override
@@ -89,9 +90,9 @@ public class DataModel
             return name;
         }
 
-        public enum State
+        public enum DataItemState
         {
-            SUGGESTED, IN_CART, HIDDEN;
+            SUGGESTED, IN_CART, HIDDEN
         }
     }
 }

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ingwersen.kyle.cs125_project.MainActivity;
 import com.ingwersen.kyle.cs125_project.R;
 import com.ingwersen.kyle.cs125_project.model.DataModel;
 
@@ -27,6 +28,7 @@ public class CartFragment extends Fragment
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnCartFragmentInteractionListener mListener;
+    private MainActivity mParent;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -38,12 +40,13 @@ public class CartFragment extends Fragment
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static CartFragment newInstance(int columnCount)
+    public static CartFragment newInstance(int columnCount, MainActivity parent)
     {
         CartFragment fragment = new CartFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
+        fragment.mParent = parent;
         return fragment;
     }
 
@@ -76,7 +79,7 @@ public class CartFragment extends Fragment
             {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new CartRecyclerViewAdapter(DataModel.ITEMS, mListener));
+            recyclerView.setAdapter(new CartRecyclerViewAdapter(DataModel.ITEMS, mListener, mParent));
         }
         return view;
     }

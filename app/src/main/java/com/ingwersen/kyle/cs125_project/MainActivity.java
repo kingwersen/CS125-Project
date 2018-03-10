@@ -20,21 +20,22 @@ import com.ingwersen.kyle.cs125_project.fragments.HistoryFragment;
 import com.ingwersen.kyle.cs125_project.fragments.SuggestFragment;
 import com.ingwersen.kyle.cs125_project.model.DataModel.DataListItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements
         SuggestFragment.OnSuggestFragmentInteractionListener,
         CartFragment.OnCartFragmentInteractionListener,
         HistoryFragment.OnHistoryFragmentInteractionListener
 {
-    private FragmentPagerAdapter mFragmentPagerAdapter;
+    private MainPagerAdapter mFragmentPagerAdapter;
 
     private BottomNavigationView mNavView;
     private ViewPager mViewPager;
     private RecyclerView mSuggestRecylerView;
-
-    //private ArrayList<StoreItem> mStoreItems; TODO: REMOVE
-    //private String[] list;
     private EditText filterBox;
-    private Filter filter;
+
+    private List<ListFilter<DataListItem>> mFilters;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -46,17 +47,21 @@ public class MainActivity extends AppCompatActivity implements
         mNavView.setSelectedItemId(R.id.navigation_suggest);
         mNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        mFilters = new ArrayList<ListFilter<DataListItem>>();
+
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
-        mFragmentPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), this);
+        mFragmentPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), this);
         mViewPager.setAdapter(mFragmentPagerAdapter);
         mViewPager.addOnPageChangeListener(mOnPageChangeListener);
+        mViewPager.setOffscreenPageLimit(MainPagerAdapter.NUM_ITEMS - 1);  // Don't delete pages.
 
-        filter = new Filter();
         filterBox = (EditText) findViewById(R.id.filter_box);
         Button filterButton = (Button) findViewById(R.id.filter_button);
-        filterButton.setOnClickListener(mOnClickListener);
+        filterButton.setOnClickListener(mOnFilterButtonListener);
+
 
         loadStoreItems();
+        System.out.println("APPLICATION START");
 
 
         // TODO:
@@ -137,45 +142,61 @@ public class MainActivity extends AppCompatActivity implements
         }
     };
 
-    private View.OnClickListener mOnClickListener = new View.OnClickListener()
+    private View.OnClickListener mOnFilterButtonListener = new View.OnClickListener()
     {
         @Override
         public void onClick(View v)
         {
-            // TODO: applyFilter()
-            //applyFilter();
+            updateListFilters();
         }
     };
+
+    public void addListFilter(ListFilter<DataListItem> list)
+    {
+        mFilters.add(list);
+    }
 
     @Override
     public void onSuggestFragmentInteraction(DataListItem item)
     {
         // TODO: Move Item to Cart
-        item.state = DataListItem.State.IN_CART;
+        item.state = DataListItem.DataItemState.IN_CART;
+        updateListFilters();
     }
 
     @Override
     public void onCartFragmentInteraction(DataListItem item)
     {
         // TODO: Move Item to Suggestions
-        item.state = DataListItem.State.SUGGESTED;
+        item.state = DataListItem.DataItemState.SUGGESTED;
+        updateListFilters();
     }
 
     @Override
     public void onHistoryFragmentInteraction(DataListItem item)
     {
         // TODO: Move Item to Cart
-        item.state = DataListItem.State.IN_CART;
+        item.state = DataListItem.DataItemState.IN_CART;
+        updateListFilters();
     }
 
-    private static class MyPagerAdapter extends FragmentPagerAdapter
+    public void updateListFilters()
+    {
+        for (ListFilter<DataListItem> filter : mFilters)
+        {
+            // Apply the current filter and update the list.
+            filter.applyFilter(filterBox.getText().toString());
+        }
+    }
+
+    private static class MainPagerAdapter extends FragmentPagerAdapter
     {
         // https://github.com/codepath/android_guides/wiki/ViewPager-with-FragmentPagerAdapter
         private static int NUM_ITEMS = 3;
 
         private Context mContext;
 
-        public MyPagerAdapter(FragmentManager fragmentManager, Context context) {
+        public MainPagerAdapter(FragmentManager fragmentManager, Context context) {
             super(fragmentManager);
             mContext = context;
         }
@@ -191,11 +212,11 @@ public class MainActivity extends AppCompatActivity implements
         {
             switch (position) {
                 case 0:
-                    return SuggestFragment.newInstance(1);
+                    return SuggestFragment.newInstance(1, (MainActivity) mContext);
                 case 1:
-                    return CartFragment.newInstance(1);
+                    return CartFragment.newInstance(1, (MainActivity) mContext);
                 case 2:
-                    return HistoryFragment.newInstance(1);
+                    return HistoryFragment.newInstance(1, (MainActivity) mContext);
                 default:
                     return null;
             }

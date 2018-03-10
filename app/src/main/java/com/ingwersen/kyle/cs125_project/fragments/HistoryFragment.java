@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ingwersen.kyle.cs125_project.MainActivity;
 import com.ingwersen.kyle.cs125_project.R;
 import com.ingwersen.kyle.cs125_project.model.DataModel;
 import com.ingwersen.kyle.cs125_project.model.DataModel.DataListItem;
@@ -28,6 +29,7 @@ public class HistoryFragment extends Fragment
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnHistoryFragmentInteractionListener mListener;
+    private MainActivity mParent;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -39,12 +41,13 @@ public class HistoryFragment extends Fragment
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static HistoryFragment newInstance(int columnCount)
+    public static HistoryFragment newInstance(int columnCount, MainActivity parent)
     {
         HistoryFragment fragment = new HistoryFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
+        fragment.mParent = parent;
         return fragment;
     }
 
@@ -77,7 +80,7 @@ public class HistoryFragment extends Fragment
             {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new HistoryRecyclerViewAdapter(DataModel.ITEMS, mListener));
+            recyclerView.setAdapter(new HistoryRecyclerViewAdapter(DataModel.ITEMS, mListener, mParent));
         }
         return view;
     }
