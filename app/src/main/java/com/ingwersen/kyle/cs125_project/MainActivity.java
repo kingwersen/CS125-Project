@@ -22,7 +22,9 @@ import android.widget.EditText;
 import com.ingwersen.kyle.cs125_project.fragments.CartFragment;
 import com.ingwersen.kyle.cs125_project.fragments.HistoryFragment;
 import com.ingwersen.kyle.cs125_project.fragments.SuggestFragment;
+import com.ingwersen.kyle.cs125_project.model.DataModel;
 import com.ingwersen.kyle.cs125_project.model.DataModel.DataListItem;
+import com.ingwersen.kyle.cs125_project.model.DataUtility;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -221,8 +223,7 @@ public class MainActivity extends AppCompatActivity implements
     {
         // Move Item to Suggestions
         item.state = DataListItem.DataItemState.SUGGESTED;
-        item.quantity++;
-        item.timeLast = LocalDateTime.now();
+        item.increment();
         updateListFilters();
     }
 
@@ -236,6 +237,7 @@ public class MainActivity extends AppCompatActivity implements
 
     public void updateListFilters()
     {
+        DataUtility.updateUtility(DataModel.ITEMS);
         for (ListFilter<DataListItem> filter : mFilters)
         {
             // Apply the current filter and update the list.

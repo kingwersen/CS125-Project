@@ -1,8 +1,10 @@
 package com.ingwersen.kyle.cs125_project.model;
 
+import com.ingwersen.kyle.cs125_project.Util;
+
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,11 +72,11 @@ public class DataModel
         public final String name;
         public final String details;
 
-        public int quantity;
-        public double timeMean;
-        public double timeVar;
+        public int count;
+        public float timeMean;
+        public float timeStdDev;
         public LocalDateTime timeLast;
-        public int utility;
+        public float utility;
 
         public DataItemState state;
 
@@ -84,30 +86,59 @@ public class DataModel
             this.name = name;
             this.details = details;
 
-            this.quantity = 0;
-            this.timeMean = 0;
-            this.timeVar = 0;
+            this.count = 0;
+            this.timeMean = 0f;
+            this.timeStdDev = 0f;
             this.timeLast = LocalDateTime.MIN;
-            this.utility = 0;
+            this.utility = 0f;
 
             this.state = DataItemState.SUGGESTED;
         }
 
-        private DataListItem(String id, String name, String details, int quantity, int timeMean,
-                             int timeVar, LocalDateTime timeLast, int utility, DataItemState state)
+        private DataListItem(String id, String name, String details, int count, float timeMean,
+                             float timeStdDev, LocalDateTime timeLast, float utility, DataItemState state)
         {
             this.id = id;
             this.name = name;
             this.details = details;
 
-            this.quantity = quantity;
+            this.count = count;
             this.timeMean = timeMean;
-            this.timeVar = timeVar;
+            this.timeStdDev = timeStdDev;
             this.timeLast = timeLast;
             this.utility = utility;
 
             this.state = state;
         }
+
+        public void increment()
+        {
+            // Last Time
+            LocalDateTime now = Util.currentTime();
+            float timeSince = (float) Duration.between(timeLast, now).getSeconds();
+            timeLast = now;
+
+            // Count
+            ++count;
+
+            // Mean
+            if (count > 0)
+            {
+                timeMean = timeMean + (timeSince - timeMean) / count;
+            }
+
+            // Variance
+            // https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
+            if (count > 1)
+            {
+                float var = timeStdDev * timeStdDev;
+                var = (count - 2) / (count - 1) * var +
+                        (timeSince - timeMean) * (timeSince - timeMean) / count;
+                timeStdDev = (float) Math.sqrt(var);
+            }
+        }
+
+
 
         @Override
         public String toString()

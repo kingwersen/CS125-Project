@@ -44,7 +44,7 @@ public class SuggestListFilter extends ListFilter<DataListItem>
         }
         if (mOutput.size() > 1)
         {
-            mOutput.sort((left, right) -> left.utility - right.utility);
+            mOutput.sort((left, right) -> left.utility < right.utility ? 1 : (left.utility > right.utility ? -1 : 0));
         }
         if (mAdapter != null)
         {

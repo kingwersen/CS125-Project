@@ -50,7 +50,7 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
     {
         holder.mItem = mValues.get(position);
         holder.mContentView.setText(mValues.get(position).name);
-        holder.mDateView.setText(Util.formatTime(Duration.between(mValues.get(position).timeLast, LocalDateTime.now())));
+        holder.mDateView.setText(Util.formatTime(Duration.between(mValues.get(position).timeLast, Util.currentTime())));
         System.out.println(Duration.between(LocalDateTime.now(), mValues.get(position).timeLast).toString());
 
         holder.mView.setOnClickListener(new View.OnClickListener()

@@ -46,6 +46,7 @@ public class SuggestRecyclerViewAdapter extends RecyclerView.Adapter<SuggestRecy
     {
         holder.mItem = mValues.get(position);
         holder.mContentView.setText(mValues.get(position).name);
+        holder.mUtilityView.setText(String.valueOf(mValues.get(position).utility));
 
         holder.mView.setOnClickListener(new View.OnClickListener()
         {
@@ -72,6 +73,7 @@ public class SuggestRecyclerViewAdapter extends RecyclerView.Adapter<SuggestRecy
     {
         public final View mView;
         public final TextView mContentView;
+        public final TextView mUtilityView;
         public DataListItem mItem;
 
         public ViewHolder(View view)
@@ -79,6 +81,7 @@ public class SuggestRecyclerViewAdapter extends RecyclerView.Adapter<SuggestRecy
             super(view);
             mView = view;
             mContentView = (TextView) view.findViewById(R.id.name);
+            mUtilityView = (TextView) view.findViewById(R.id.utility);
         }
 
         @Override
