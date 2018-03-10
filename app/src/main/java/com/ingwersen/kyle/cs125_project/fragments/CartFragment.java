@@ -3,6 +3,7 @@ package com.ingwersen.kyle.cs125_project.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,6 +31,8 @@ public class CartFragment extends Fragment
     private int mColumnCount = 1;
     private OnCartFragmentInteractionListener mListener;
     private MainActivity mParent;
+    private SwipeRefreshLayout mRefreshLayout;
+    private RecyclerView mRecyclerView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -67,25 +70,32 @@ public class CartFragment extends Fragment
                              Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_cart_list, container, false);
+        Context context = view.getContext();
 
-        // Set the adapter
-        if (view instanceof RecyclerView)
+        mRefreshLayout = (SwipeRefreshLayout) view;
+        mRefreshLayout.setOnRefreshListener(() -> refreshList());
+
+        for (int i = 0, n = mRefreshLayout.getChildCount(); i < n; ++i)
         {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1)
+            View v = mRefreshLayout.getChildAt(i);
+            if (v instanceof RecyclerView)
             {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else
-            {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+                mRecyclerView = (RecyclerView) v;
+                break;
             }
-            recyclerView.setAdapter(new CartRecyclerViewAdapter(DataModel.ITEMS, mListener, mParent));
-            recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         }
+        // TODO: Exit nicely if fails to find RecyclerView
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        mRecyclerView.setAdapter(new CartRecyclerViewAdapter(DataModel.ITEMS, mListener, mParent));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         return view;
     }
 
+    private void refreshList()
+    {
+        mParent.updateListFilters();
+        mRefreshLayout.setRefreshing(false);
+    }
 
     @Override
     public void onAttach(Context context)

@@ -1,7 +1,7 @@
 package com.ingwersen.kyle.cs125_project;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 /**
  * Created by kyle on 3/9/2018.
@@ -33,9 +33,9 @@ public class Util
         }
     }
 
-    public static LocalDateTime currentTime()
+    public static ZonedDateTime currentTime()
     {
         // (In case we want to test future values)
-        return LocalDateTime.now();
+        return ZonedDateTime.now();
     }
 }

@@ -32,7 +32,6 @@ public class SuggestListFilter extends ListFilter<DataListItem>
     public void update()
     {
         System.out.println("UPDATE SUGGEST VIEW");
-        System.out.println(mFilter.toString());
         mOutput.clear();
         for (DataListItem item : mValues)
         {

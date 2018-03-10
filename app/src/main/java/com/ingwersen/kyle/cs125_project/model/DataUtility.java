@@ -3,6 +3,7 @@ import com.ingwersen.kyle.cs125_project.Util;
 import com.ingwersen.kyle.cs125_project.model.DataModel.DataListItem;
 
 import java.time.Duration;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 /**
@@ -15,14 +16,18 @@ public class DataUtility
 
     public static void updateUtility(List<DataListItem> items)
     {
+        ZonedDateTime now = Util.currentTime();
         for (DataListItem item : items)
         {
-            // TODO: Calculate and Modify item.utility
-            // Utility from distance from expected mean
-            long dist = Duration.between(Util.currentTime(), item.timeLast).getSeconds();
+            // Calculate and Modify item.utility
+            // 1. Utility from distance from expected mean
+            float dist = (float) Duration.between(now, item.timeLast).getSeconds();
             float fromHistory = item.count > 1 ? pretendGaussianDensity(dist, item.timeMean, item.timeStdDev) : 0;
 
-            item.utility = WEIGHTS[0] * fromHistory;
+            // 2. ...
+            // 3. ...
+
+            item.utility = fromHistory * WEIGHTS[0]; // + ... + ...
         }
     }
 

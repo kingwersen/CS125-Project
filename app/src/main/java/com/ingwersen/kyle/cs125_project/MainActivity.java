@@ -26,9 +26,7 @@ import com.ingwersen.kyle.cs125_project.model.DataModel;
 import com.ingwersen.kyle.cs125_project.model.DataModel.DataListItem;
 import com.ingwersen.kyle.cs125_project.model.DataUtility;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements
@@ -77,11 +75,8 @@ public class MainActivity extends AppCompatActivity implements
 
 
         // TODO:
-        // 0. Finish StoreItem
-        // 1. Finish Filter Capabilities
         // 2. Voice Input: https://developer.android.com/training/wearables/apps/voice.html
         // 3. Image Input
-        // 4. Build Recommender
     }
 
     private void loadStoreItems()

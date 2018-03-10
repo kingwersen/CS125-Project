@@ -4,6 +4,7 @@ import com.ingwersen.kyle.cs125_project.Util;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,7 +76,7 @@ public class DataModel
         public int count;
         public float timeMean;
         public float timeStdDev;
-        public LocalDateTime timeLast;
+        public ZonedDateTime timeLast;
         public float utility;
 
         public DataItemState state;
@@ -89,14 +90,14 @@ public class DataModel
             this.count = 0;
             this.timeMean = 0f;
             this.timeStdDev = 0f;
-            this.timeLast = LocalDateTime.MIN;
+            this.timeLast = ZonedDateTime.now();
             this.utility = 0f;
 
             this.state = DataItemState.SUGGESTED;
         }
 
         private DataListItem(String id, String name, String details, int count, float timeMean,
-                             float timeStdDev, LocalDateTime timeLast, float utility, DataItemState state)
+                             float timeStdDev, ZonedDateTime timeLast, float utility, DataItemState state)
         {
             this.id = id;
             this.name = name;
@@ -114,18 +115,15 @@ public class DataModel
         public void increment()
         {
             // Last Time
-            LocalDateTime now = Util.currentTime();
-            float timeSince = (float) Duration.between(timeLast, now).getSeconds();
+            ZonedDateTime now = Util.currentTime();
+            float timeSince = (float) Duration.between(now, timeLast).getSeconds();
             timeLast = now;
 
             // Count
             ++count;
 
             // Mean
-            if (count > 0)
-            {
-                timeMean = timeMean + (timeSince - timeMean) / count;
-            }
+            timeMean += (timeSince - timeMean) / count;
 
             // Variance
             // https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
