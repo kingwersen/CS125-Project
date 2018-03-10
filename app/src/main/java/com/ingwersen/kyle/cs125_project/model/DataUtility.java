@@ -16,12 +16,11 @@ public class DataUtility
 
     public static void updateUtility(List<DataListItem> items)
     {
-        ZonedDateTime now = Util.currentTime();
         for (DataListItem item : items)
         {
             // Calculate and Modify item.utility
             // 1. Utility from distance from expected mean
-            float dist = (float) Duration.between(now, item.timeLast).getSeconds();
+            float dist = (float) Util.timeSince(item.timeLast).getSeconds();
             float fromHistory = item.count > 1 ? pretendGaussianDensity(dist, item.timeMean, item.timeStdDev) : 0;
 
             // 2. ...

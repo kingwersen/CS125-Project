@@ -116,7 +116,7 @@ public class DataModel
         {
             // Last Time
             ZonedDateTime now = Util.currentTime();
-            float timeSince = (float) Duration.between(now, timeLast).getSeconds();
+            float timeSince = (float) Util.timeSince(timeLast).getSeconds();
             timeLast = now;
 
             // Count

@@ -1,6 +1,7 @@
 package com.ingwersen.kyle.cs125_project.fragments;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 
 import com.ingwersen.kyle.cs125_project.MainActivity;
 import com.ingwersen.kyle.cs125_project.R;
+import com.ingwersen.kyle.cs125_project.Util;
 import com.ingwersen.kyle.cs125_project.model.DataModel.DataListItem;
 
 import java.util.List;
@@ -46,6 +48,8 @@ public class SuggestRecyclerViewAdapter extends RecyclerView.Adapter<SuggestRecy
     {
         holder.mItem = mValues.get(position);
         holder.mContentView.setText(mValues.get(position).name);
+        holder.mSinceView.setText(Util.formatTime(Util.timeSince(mValues.get(position).timeLast)));
+        holder.mExpectedView.setText(String.valueOf(mValues.get(position).timeMean));
         holder.mUtilityView.setText(String.valueOf(mValues.get(position).utility));
 
         holder.mView.setOnClickListener(new View.OnClickListener()
@@ -74,6 +78,8 @@ public class SuggestRecyclerViewAdapter extends RecyclerView.Adapter<SuggestRecy
         public final View mView;
         public final TextView mContentView;
         public final TextView mUtilityView;
+        public final TextView mSinceView;
+        public final TextView mExpectedView;
         public DataListItem mItem;
 
         public ViewHolder(View view)
@@ -82,6 +88,8 @@ public class SuggestRecyclerViewAdapter extends RecyclerView.Adapter<SuggestRecy
             mView = view;
             mContentView = (TextView) view.findViewById(R.id.name);
             mUtilityView = (TextView) view.findViewById(R.id.utility);
+            mSinceView = (TextView) view.findViewById(R.id.time_since);
+            mExpectedView = (TextView) view.findViewById(R.id.time_expected);
         }
 
         @Override

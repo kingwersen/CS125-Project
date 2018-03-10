@@ -38,4 +38,9 @@ public class Util
         // (In case we want to test future values)
         return ZonedDateTime.now();
     }
+
+    public static Duration timeSince(ZonedDateTime time)
+    {
+        return Duration.between(time, currentTime());
+    }
 }
