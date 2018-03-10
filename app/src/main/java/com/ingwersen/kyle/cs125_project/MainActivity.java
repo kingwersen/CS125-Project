@@ -1,6 +1,8 @@
 package com.ingwersen.kyle.cs125_project;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -10,6 +12,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -56,12 +60,14 @@ public class MainActivity extends AppCompatActivity implements
         mViewPager.setOffscreenPageLimit(MainPagerAdapter.NUM_ITEMS - 1);  // Don't delete pages.
 
         filterBox = (EditText) findViewById(R.id.filter_box);
+        filterBox.addTextChangedListener(mOnFilterChangeListener);
         Button filterButton = (Button) findViewById(R.id.filter_button);
         filterButton.setOnClickListener(mOnFilterButtonListener);
 
 
         loadStoreItems();
         System.out.println("APPLICATION START");
+        setActionBar(0);
 
 
         // TODO:
@@ -103,12 +109,15 @@ public class MainActivity extends AppCompatActivity implements
             {
                 case R.id.navigation_suggest:
                     mViewPager.setCurrentItem(0);
+                    setActionBar(0);
                     break;
                 case R.id.navigation_list:
                     mViewPager.setCurrentItem(1);
+                    setActionBar(1);
                     break;
                 case R.id.navigation_history:
                     mViewPager.setCurrentItem(2);
+                    setActionBar(2);
                     break;
                 default:
                     return false;
@@ -133,10 +142,51 @@ public class MainActivity extends AppCompatActivity implements
             mNavView.getMenu().getItem(mPrevPage).setChecked(false);
             mNavView.getMenu().getItem(position).setChecked(true);
             mPrevPage = position;
+            setActionBar(position);
         }
 
         @Override
         public void onPageScrollStateChanged(int state)
+        {
+
+        }
+    };
+
+    private void setActionBar(int page)
+    {
+        switch (page)
+        {
+            case 0:
+                getSupportActionBar().setTitle(R.string.title_suggest);
+                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getColor(R.color.colorSuggest)));
+                break;
+            case 1:
+                getSupportActionBar().setTitle(R.string.title_cart);
+                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getColor(R.color.colorCart)));
+                break;
+            case 2:
+                getSupportActionBar().setTitle(R.string.title_history);
+                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getColor(R.color.colorHistory)));
+                break;
+        }
+    }
+
+    private TextWatcher mOnFilterChangeListener = new TextWatcher()
+    {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+        {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+        {
+            updateListFilters();
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable)
         {
 
         }
