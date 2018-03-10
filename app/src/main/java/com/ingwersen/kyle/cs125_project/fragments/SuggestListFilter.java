@@ -31,7 +31,7 @@ public class SuggestListFilter extends ListFilter<DataListItem>
     @Override
     public void update()
     {
-        System.out.println("UPDATE 1");
+        System.out.println("UPDATE SUGGEST VIEW");
         System.out.println(mFilter.toString());
         mOutput.clear();
         for (DataListItem item : mValues)
@@ -41,6 +41,10 @@ public class SuggestListFilter extends ListFilter<DataListItem>
             {
                 mOutput.add(item);
             }
+        }
+        if (mOutput.size() > 1)
+        {
+            mOutput.sort((left, right) -> left.utility - right.utility);
         }
         if (mAdapter != null)
         {

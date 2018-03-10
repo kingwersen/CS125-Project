@@ -1,5 +1,6 @@
 package com.ingwersen.kyle.cs125_project.model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -72,7 +73,8 @@ public class DataModel
         public int quantity;
         public double timeMean;
         public double timeVar;
-        public Date timeLast;
+        public LocalDateTime timeLast;
+        public int utility;
 
         public DataItemState state;
 
@@ -81,7 +83,30 @@ public class DataModel
             this.id = id;
             this.name = name;
             this.details = details;
+
+            this.quantity = 0;
+            this.timeMean = 0;
+            this.timeVar = 0;
+            this.timeLast = LocalDateTime.MIN;
+            this.utility = 0;
+
             this.state = DataItemState.SUGGESTED;
+        }
+
+        private DataListItem(String id, String name, String details, int quantity, int timeMean,
+                             int timeVar, LocalDateTime timeLast, int utility, DataItemState state)
+        {
+            this.id = id;
+            this.name = name;
+            this.details = details;
+
+            this.quantity = quantity;
+            this.timeMean = timeMean;
+            this.timeVar = timeVar;
+            this.timeLast = timeLast;
+            this.utility = utility;
+
+            this.state = state;
         }
 
         @Override
@@ -95,4 +120,5 @@ public class DataModel
             SUGGESTED, IN_CART, HIDDEN
         }
     }
+
 }

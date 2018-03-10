@@ -23,7 +23,6 @@ public class SuggestRecyclerViewAdapter extends RecyclerView.Adapter<SuggestRecy
     private final SuggestListFilter mFilter;
     private final List<DataListItem> mValues;
     private final SuggestFragment.OnSuggestFragmentInteractionListener mListener;
-    private RecyclerView.LayoutParams mResetLayoutParams;
 
     public SuggestRecyclerViewAdapter(List<DataListItem> items, SuggestFragment.OnSuggestFragmentInteractionListener listener, MainActivity parent)
     {
@@ -46,7 +45,6 @@ public class SuggestRecyclerViewAdapter extends RecyclerView.Adapter<SuggestRecy
     public void onBindViewHolder(final ViewHolder holder, int position)
     {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
         holder.mContentView.setText(mValues.get(position).name);
 
         holder.mView.setOnClickListener(new View.OnClickListener()
@@ -59,23 +57,9 @@ public class SuggestRecyclerViewAdapter extends RecyclerView.Adapter<SuggestRecy
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
                     mListener.onSuggestFragmentInteraction(holder.mItem);
-                    //System.out.println("TEST2");
-                    //holder.updateVisibility();
                 }
             }
         });
-    }
-
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView)
-    {
-
-    }
-
-    public void onFilterUpdate()
-    {
-        System.out.println("TEST");
-        //mRecyclerView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
     }
 
     @Override
@@ -87,7 +71,6 @@ public class SuggestRecyclerViewAdapter extends RecyclerView.Adapter<SuggestRecy
     public class ViewHolder extends RecyclerView.ViewHolder
     {
         public final View mView;
-        public final TextView mIdView;
         public final TextView mContentView;
         public DataListItem mItem;
 
@@ -95,19 +78,7 @@ public class SuggestRecyclerViewAdapter extends RecyclerView.Adapter<SuggestRecy
         {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
             mContentView = (TextView) view.findViewById(R.id.name);
-            //updateVisibility();
-        }
-
-        public void updateVisibility()
-        {
-            if (mItem != null)
-            {
-                int visible = (mItem.state == DataListItem.DataItemState.SUGGESTED ? View.VISIBLE : View.GONE);
-                mView.setVisibility(visible);
-                mView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
-            }
         }
 
         @Override

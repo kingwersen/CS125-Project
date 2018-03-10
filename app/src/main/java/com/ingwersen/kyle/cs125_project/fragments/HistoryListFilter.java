@@ -1,8 +1,11 @@
 package com.ingwersen.kyle.cs125_project.fragments;
 
 import com.ingwersen.kyle.cs125_project.ListFilter;
+import com.ingwersen.kyle.cs125_project.model.DataModel;
 import com.ingwersen.kyle.cs125_project.model.DataModel.DataListItem;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -26,15 +29,21 @@ public class HistoryListFilter extends ListFilter<DataListItem>
     @Override
     public void update()
     {
-        System.out.println("UPDATE 3");
+        System.out.println("UPDATE HISTORY VIEW");
         mOutput.clear();
         for (DataListItem item : mValues)
         {
-            if (item.state != DataListItem.DataItemState.HIDDEN &&
-                    (mFilter.size() == 0 || mFilter.contains(item.name.toLowerCase())))
+            if (item.state != DataListItem.DataItemState.HIDDEN
+                    && (mFilter.size() == 0 || mFilter.contains(item.name.toLowerCase()))
+                    && (item.quantity > 0))
             {
                 mOutput.add(item);
             }
+        }
+        if (mOutput.size() > 1)
+        {
+            // Reverse history order. Newest -> Oldest.
+            mOutput.sort((left, right) -> -left.timeLast.compareTo(right.timeLast));
         }
         if (mAdapter != null)
         {

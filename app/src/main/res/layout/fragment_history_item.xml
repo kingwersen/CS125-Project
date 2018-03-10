@@ -7,16 +7,17 @@
               android:background="@drawable/item_border">
 
     <TextView
-        android:id="@+id/id"
+        android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
         android:textAppearance="?attr/textAppearanceListItem"/>
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
         android:textAppearance="?attr/textAppearanceListItem"/>
+
 </LinearLayout>

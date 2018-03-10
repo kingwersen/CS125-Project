@@ -45,7 +45,6 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
     public void onBindViewHolder(final ViewHolder holder, int position)
     {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
         holder.mContentView.setText(mValues.get(position).name);
 
         holder.mView.setOnClickListener(new View.OnClickListener()
@@ -58,7 +57,6 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
                     mListener.onCartFragmentInteraction(holder.mItem);
-                    //holder.updateVisibility();
                 }
             }
         });
@@ -73,7 +71,6 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
     public class ViewHolder extends RecyclerView.ViewHolder
     {
         public final View mView;
-        public final TextView mIdView;
         public final TextView mContentView;
         public DataListItem mItem;
 
@@ -81,24 +78,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
         {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
             mContentView = (TextView) view.findViewById(R.id.name);
-            //updateVisibility();
-        }
-
-        public void updateVisibility()
-        {
-            if (mItem != null)
-            {
-                int visible = (mItem.state == DataListItem.DataItemState.IN_CART ? View.VISIBLE : View.GONE);
-                mView.setVisibility(visible);
-                //mView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
-            }
-        }
-
-        public void setVisibility(int value)
-        {
-            mView.setVisibility(value);
         }
 
         @Override

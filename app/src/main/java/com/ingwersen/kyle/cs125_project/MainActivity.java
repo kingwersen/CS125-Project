@@ -24,7 +24,9 @@ import com.ingwersen.kyle.cs125_project.fragments.HistoryFragment;
 import com.ingwersen.kyle.cs125_project.fragments.SuggestFragment;
 import com.ingwersen.kyle.cs125_project.model.DataModel.DataListItem;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements
@@ -209,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onSuggestFragmentInteraction(DataListItem item)
     {
-        // TODO: Move Item to Cart
+        // Move Item to Cart
         item.state = DataListItem.DataItemState.IN_CART;
         updateListFilters();
     }
@@ -217,15 +219,17 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onCartFragmentInteraction(DataListItem item)
     {
-        // TODO: Move Item to Suggestions
+        // Move Item to Suggestions
         item.state = DataListItem.DataItemState.SUGGESTED;
+        item.quantity++;
+        item.timeLast = LocalDateTime.now();
         updateListFilters();
     }
 
     @Override
     public void onHistoryFragmentInteraction(DataListItem item)
     {
-        // TODO: Move Item to Cart
+        // Move Item to Cart
         item.state = DataListItem.DataItemState.IN_CART;
         updateListFilters();
     }

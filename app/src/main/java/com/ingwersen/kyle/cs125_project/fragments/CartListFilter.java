@@ -26,7 +26,7 @@ public class CartListFilter extends ListFilter<DataListItem>
     @Override
     public void update()
     {
-        System.out.println("UPDATE 2");
+        System.out.println("UPDATE CART VIEW");
         mOutput.clear();
         for (DataListItem item : mValues)
         {
