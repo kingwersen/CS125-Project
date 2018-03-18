@@ -18,6 +18,6 @@
         android:scrollbars="vertical"
         app:layoutManager="LinearLayoutManager"
         tools:context="com.ingwersen.kyle.cs125_project.fragments.HistoryFragment"
-        tools:listitem="@layout/fragment_history_item"/>
+        tools:listitem="@layout/item_layout"/>
 
 </android.support.v4.widget.SwipeRefreshLayout>

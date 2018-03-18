@@ -7,4 +7,11 @@
     <color name="colorCart">#FFDD22</color>
     <color name="colorHistory">#3030FF</color>
     <color name="colorCart2">#22AA22</color>
+
+    <color name="gradientBlue">#0050AA</color>
+    <color name="gradientGreen">#22AA22</color>
+    <color name="gradientYellow">#FFDD22</color>
+    <color name="gradientOrange">#DD5000</color>
+    <color name="gradientRed">#DD0000</color>
+    <color name="gradientDarkRed">#440000</color>
 </resources>

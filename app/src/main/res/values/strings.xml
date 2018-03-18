@@ -13,4 +13,7 @@
     <string name="blue">Blue</string>
     <string name="green">Green</string>
     <string name="options_open">Options</string>
+    <string name="item_exp">Exp:</string>
+    <string name="item_last">Last:</string>
+    <string name="item_utility">Utility:</string>
 </resources>

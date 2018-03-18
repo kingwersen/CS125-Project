@@ -8,8 +8,10 @@ import android.widget.TextView;
 
 import com.ingwersen.kyle.cs125_project.MainActivity;
 import com.ingwersen.kyle.cs125_project.R;
+import com.ingwersen.kyle.cs125_project.Util;
 import com.ingwersen.kyle.cs125_project.model.DataModel.DataListItem;
 
+import java.time.Duration;
 import java.util.List;
 
 /**
@@ -37,7 +39,7 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_cart_item, parent, false);
+                .inflate(R.layout.item_layout, parent, false);
         return new ViewHolder(view);
     }
 
@@ -45,7 +47,10 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
     public void onBindViewHolder(final ViewHolder holder, int position)
     {
         holder.mItem = mValues.get(position);
-        holder.mContentView.setText(mValues.get(position).name);
+        holder.mNameView.setText(mValues.get(position).name);
+        holder.mExpectView.setText(Util.formatTime(Duration.ofSeconds((long) mValues.get(position).timeMean)));
+        holder.mLastView.setText(Util.formatTime(Util.timeSince(mValues.get(position).timeLast)));
+        holder.mLastView.setTextColor(mValues.get(position).getColor().toArgb());
 
         holder.mView.setOnClickListener(new View.OnClickListener()
         {
@@ -71,20 +76,24 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
     public class ViewHolder extends RecyclerView.ViewHolder
     {
         public final View mView;
-        public final TextView mContentView;
+        public final TextView mNameView;
+        public final TextView mExpectView;
+        public final TextView mLastView;
         public DataListItem mItem;
 
         public ViewHolder(View view)
         {
             super(view);
             mView = view;
-            mContentView = (TextView) view.findViewById(R.id.name);
+            mNameView = (TextView) view.findViewById(R.id.item_name);
+            mExpectView = (TextView) view.findViewById(R.id.item_exp);
+            mLastView = (TextView) view.findViewById(R.id.item_last);
         }
 
         @Override
         public String toString()
         {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mNameView.getText() + "'";
         }
     }
 }

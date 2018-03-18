@@ -1,5 +1,7 @@
 package com.ingwersen.kyle.cs125_project.model;
 
+import android.graphics.Color;
+
 import com.ingwersen.kyle.cs125_project.Util;
 
 import java.time.Duration;
@@ -116,7 +118,7 @@ public class DataModel
         {
             // Last Time
             ZonedDateTime now = Util.currentTime();
-            float timeSince = (float) Util.timeSince(timeLast).getSeconds();
+            float timeSince = timeSince();
             timeLast = now;
 
             // Count
@@ -126,6 +128,8 @@ public class DataModel
             timeMean += (timeSince - timeMean) / count;
 
             // Variance
+            timeStdDev = timeMean / 2f;  // [0,mean] = 2 std.dev; [mean,2*mean] = 2 std.dev
+            /*
             // https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
             if (count > 1)
             {
@@ -134,9 +138,13 @@ public class DataModel
                         (timeSince - timeMean) * (timeSince - timeMean) / count;
                 timeStdDev = (float) Math.sqrt(var);
             }
+            */
         }
 
 
+        public float timeSince() {
+            return Util.timeSince(timeLast).getSeconds();
+        }
 
         @Override
         public String toString()
@@ -148,6 +156,8 @@ public class DataModel
         {
             SUGGESTED, IN_CART, HIDDEN
         }
+
+        public Color getColor() { return DataUtility.itemColor(timeSince(), timeMean, timeStdDev);}
     }
 
 }

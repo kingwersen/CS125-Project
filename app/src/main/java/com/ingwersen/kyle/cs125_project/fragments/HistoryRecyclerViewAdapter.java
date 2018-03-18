@@ -41,7 +41,7 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_history_item, parent, false);
+                .inflate(R.layout.item_layout, parent, false);
         return new ViewHolder(view);
     }
 
@@ -49,8 +49,10 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
     public void onBindViewHolder(final ViewHolder holder, int position)
     {
         holder.mItem = mValues.get(position);
-        holder.mContentView.setText(mValues.get(position).name);
-        holder.mDateView.setText(Util.formatTime(Duration.between(mValues.get(position).timeLast, Util.currentTime())));
+        holder.mNameView.setText(mValues.get(position).name);
+        holder.mExpectView.setText(Util.formatTime(Duration.ofSeconds((long) mValues.get(position).timeMean)));
+        holder.mLastView.setText(Util.formatTime(Util.timeSince(mValues.get(position).timeLast)));
+        holder.mLastView.setTextColor(mValues.get(position).getColor().toArgb());
 
         holder.mView.setOnClickListener(new View.OnClickListener()
         {
@@ -76,22 +78,24 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
     public class ViewHolder extends RecyclerView.ViewHolder
     {
         public final View mView;
-        public final TextView mContentView;
-        public final TextView mDateView;
+        public final TextView mNameView;
+        public final TextView mExpectView;
+        public final TextView mLastView;
         public DataListItem mItem;
 
         public ViewHolder(View view)
         {
             super(view);
             mView = view;
-            mContentView = (TextView) view.findViewById(R.id.name);
-            mDateView = (TextView) view.findViewById(R.id.date);
+            mNameView = (TextView) view.findViewById(R.id.item_name);
+            mExpectView = (TextView) view.findViewById(R.id.item_exp);
+            mLastView = (TextView) view.findViewById(R.id.item_last);
         }
 
         @Override
         public String toString()
         {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mNameView.getText() + "'";
         }
     }
 }

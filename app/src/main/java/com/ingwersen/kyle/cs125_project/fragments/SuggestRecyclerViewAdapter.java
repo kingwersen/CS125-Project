@@ -11,7 +11,9 @@ import com.ingwersen.kyle.cs125_project.MainActivity;
 import com.ingwersen.kyle.cs125_project.R;
 import com.ingwersen.kyle.cs125_project.Util;
 import com.ingwersen.kyle.cs125_project.model.DataModel.DataListItem;
+import com.ingwersen.kyle.cs125_project.model.DataUtility;
 
+import java.time.Duration;
 import java.util.List;
 
 /**
@@ -39,7 +41,7 @@ public class SuggestRecyclerViewAdapter extends RecyclerView.Adapter<SuggestRecy
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_suggest_item, parent, false);
+                .inflate(R.layout.item_layout_utility, parent, false);
         return new ViewHolder(view);
     }
 
@@ -47,9 +49,10 @@ public class SuggestRecyclerViewAdapter extends RecyclerView.Adapter<SuggestRecy
     public void onBindViewHolder(final ViewHolder holder, int position)
     {
         holder.mItem = mValues.get(position);
-        holder.mContentView.setText(mValues.get(position).name);
-        holder.mSinceView.setText(Util.formatTime(Util.timeSince(mValues.get(position).timeLast)));
-        holder.mExpectedView.setText(String.valueOf(mValues.get(position).timeMean));
+        holder.mNameView.setText(mValues.get(position).name);
+        holder.mExpectView.setText(Util.formatTime(Duration.ofSeconds((long) mValues.get(position).timeMean)));
+        holder.mLastView.setText(Util.formatTime(Util.timeSince(mValues.get(position).timeLast)));
+        holder.mLastView.setTextColor(mValues.get(position).getColor().toArgb());
         holder.mUtilityView.setText(String.valueOf(mValues.get(position).utility));
 
         holder.mView.setOnClickListener(new View.OnClickListener()
@@ -76,26 +79,26 @@ public class SuggestRecyclerViewAdapter extends RecyclerView.Adapter<SuggestRecy
     public class ViewHolder extends RecyclerView.ViewHolder
     {
         public final View mView;
-        public final TextView mContentView;
+        public final TextView mNameView;
+        public final TextView mExpectView;
+        public final TextView mLastView;
         public final TextView mUtilityView;
-        public final TextView mSinceView;
-        public final TextView mExpectedView;
         public DataListItem mItem;
 
         public ViewHolder(View view)
         {
             super(view);
             mView = view;
-            mContentView = (TextView) view.findViewById(R.id.name);
-            mUtilityView = (TextView) view.findViewById(R.id.utility);
-            mSinceView = (TextView) view.findViewById(R.id.time_since);
-            mExpectedView = (TextView) view.findViewById(R.id.time_expected);
+            mNameView = (TextView) view.findViewById(R.id.item_name);
+            mExpectView = (TextView) view.findViewById(R.id.item_exp);
+            mLastView = (TextView) view.findViewById(R.id.item_last);
+            mUtilityView = (TextView) view.findViewById(R.id.item_utility);
         }
 
         @Override
         public String toString()
         {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mNameView.getText() + "'";
         }
     }
 }
