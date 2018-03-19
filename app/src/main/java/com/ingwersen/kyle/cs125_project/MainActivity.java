@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements
         filterButton.setOnClickListener(mOnFilterButtonListener);
 
         // Location Manager
-        LocationManager.start(this, mBroadcastReciever);
+        LocationManager.start(this, mLocationChangedListener);
 
 
         loadStoreItems();
@@ -174,12 +174,13 @@ public class MainActivity extends AppCompatActivity implements
         }
     };
 
-    private BroadcastReceiver mBroadcastReciever = new BroadcastReceiver()
+    private LocationManager.LocationChangedListener mLocationChangedListener = new LocationManager.LocationChangedListener()
     {
         @Override
-        public void onReceive(Context context, Intent intent)
+        public void onLocationChanged(Location location)
         {
-            System.out.println("Recieved Location: " + com.ingwersen.kyle.cs125_project.location.LocationManager.getLocation());
+            // TODO: Do something
+            System.out.println("Location Changed: " + location);
         }
     };
 

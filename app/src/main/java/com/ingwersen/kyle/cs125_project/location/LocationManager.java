@@ -31,19 +31,19 @@ public class LocationManager
     private static final Location mLastLocation = new Location(android.location.LocationManager.GPS_PROVIDER);
     private static boolean mStarted = false;
     private static Activity mContext = null;
-    private static BroadcastReceiver mBroadcastReciever = null;
+    private static LocationChangedListener mLocationChangedListener = null;
 
     public static Location getLocation()
     {
         return mLastLocation;
     }
 
-    public static void start(Activity context, BroadcastReceiver broadcastReceiver)
+    public static void start(Activity context, LocationChangedListener listener)
     {
         if (!mStarted)
         {
             mContext = context;
-            mBroadcastReciever = broadcastReceiver;
+            mLocationChangedListener = listener;
 
             Log.e(TAG, "Requesting Permissions.");
             if (checkPermissions())
@@ -90,6 +90,7 @@ public class LocationManager
             {
                 Log.e(TAG, "onLocationChanged: " + location);
                 mLastLocation.set(location);
+                mLocationChangedListener.onLocationChanged(location);
             }
 
             @Override
@@ -145,7 +146,6 @@ public class LocationManager
 
             IntentFilter filter = new IntentFilter();
             filter.addAction(android.location.LocationManager.KEY_LOCATION_CHANGED);
-            registerReceiver(mBroadcastReciever, filter);
         }
 
         @Override
@@ -160,8 +160,6 @@ public class LocationManager
                     Log.i(TAG, "fail to remove location listners, ignore", ex);
                 }
             }
-
-            unregisterReceiver(mBroadcastReciever);
         }
 
         private void initializeLocationManager() {
@@ -171,5 +169,10 @@ public class LocationManager
             }
         }
 
+    }
+
+    public interface LocationChangedListener
+    {
+        void onLocationChanged(Location location);
     }
 }
