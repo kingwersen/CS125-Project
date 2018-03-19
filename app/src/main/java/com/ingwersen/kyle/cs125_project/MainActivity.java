@@ -1,8 +1,6 @@
 package com.ingwersen.kyle.cs125_project;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.os.Bundle;
@@ -27,6 +25,7 @@ import android.support.v7.widget.Toolbar;
 import com.ingwersen.kyle.cs125_project.fragments.CartFragment;
 import com.ingwersen.kyle.cs125_project.fragments.HistoryFragment;
 import com.ingwersen.kyle.cs125_project.fragments.SuggestFragment;
+import com.ingwersen.kyle.cs125_project.location.GooglePlacesAPI;
 import com.ingwersen.kyle.cs125_project.model.DataModel;
 import com.ingwersen.kyle.cs125_project.model.DataModel.DataListItem;
 import com.ingwersen.kyle.cs125_project.model.DataUtility;
@@ -179,8 +178,9 @@ public class MainActivity extends AppCompatActivity implements
         @Override
         public void onLocationChanged(Location location)
         {
-            // TODO: Do something
+            // TODO: Fix web error.
             System.out.println("Location Changed: " + location);
+            //System.out.println("Places: " + GooglePlacesAPI.getPlaces(location));
         }
     };
 

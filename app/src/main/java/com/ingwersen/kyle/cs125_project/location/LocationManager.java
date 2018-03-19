@@ -25,8 +25,8 @@ public class LocationManager
     // https://stackoverflow.com/questions/9092134/broadcast-receiver-within-a-service
 
     private static final String TAG = "CS125-PROJECT-GPS";
-    private static final int LOCATION_INTERVAL = 1000 * 60 * 5; // 5 Minutes
-    private static final float LOCATION_DISTANCE = 0f; // Ignore Distance
+    private static final int LOCATION_INTERVAL = 1000 * 60 * 5; // One request per 5 minutes
+    private static final float LOCATION_DISTANCE = 0f; // No distance requirement
 
     private static final Location mLastLocation = new Location(android.location.LocationManager.GPS_PROVIDER);
     private static boolean mStarted = false;
