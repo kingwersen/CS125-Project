@@ -14,4 +14,5 @@
     <color name="gradientOrange">#DD5000</color>
     <color name="gradientRed">#DD0000</color>
     <color name="gradientDarkRed">#440000</color>
+    <color name="gradientBlack">#000000</color>
 </resources>

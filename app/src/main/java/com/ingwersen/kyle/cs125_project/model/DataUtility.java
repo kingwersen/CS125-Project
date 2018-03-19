@@ -31,6 +31,7 @@ public class DataUtility
             float fromHistory = item.count > 0 ? pretendGaussianDensity(dist, item.timeMean, item.timeStdDev) : 0;
 
             // 2. ...
+
             // 3. ...
 
             item.utility = fromHistory * WEIGHTS[0]; // + ... + ...
@@ -54,16 +55,16 @@ public class DataUtility
                 Color.valueOf(ContextCompat.getColor(mContext, R.color.gradientYellow)),
                 Color.valueOf(ContextCompat.getColor(mContext, R.color.gradientOrange)),
                 Color.valueOf(ContextCompat.getColor(mContext, R.color.gradientRed)),
-                Color.valueOf(ContextCompat.getColor(mContext, R.color.gradientDarkRed))
+                Color.valueOf(ContextCompat.getColor(mContext, R.color.gradientBlack))
         };
     }
 
     private static Color gradientBetween(Color a, Color b, float p)
     {
         return Color.valueOf(
-                a.red()*p + b.red()*(1-p),
-                a.green()*p + b.green()*(1-p),
-                a.blue()*p + b.blue()*(1-p)
+                a.red()*(1-p) + b.red()*p,
+                a.green()*(1-p) + b.green()*p,
+                a.blue()*(1-p) + b.blue()*p
         );
     }
 

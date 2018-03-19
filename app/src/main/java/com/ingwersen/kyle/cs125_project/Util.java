@@ -24,12 +24,12 @@ public class Util
         else if (difference.toHours() < 24)
         {
             long hours = difference.toHours();
-            return String.valueOf(hours) + " Hours" + (hours == 1 ? "" : "s");
+            return String.valueOf(hours) + " Hour" + (hours == 1 ? "" : "s");
         }
         else
         {
             long days = difference.toDays();
-            return String.valueOf(days) + " Days" + (days == 1 ? "" : "s");
+            return String.valueOf(days) + " Day" + (days == 1 ? "" : "s");
         }
     }
 

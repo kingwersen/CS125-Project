@@ -1,7 +1,10 @@
 package com.ingwersen.kyle.cs125_project;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -27,6 +30,7 @@ import com.ingwersen.kyle.cs125_project.fragments.SuggestFragment;
 import com.ingwersen.kyle.cs125_project.model.DataModel;
 import com.ingwersen.kyle.cs125_project.model.DataModel.DataListItem;
 import com.ingwersen.kyle.cs125_project.model.DataUtility;
+import com.ingwersen.kyle.cs125_project.location.LocationManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements
 
     private List<ListFilter<DataListItem>> mFilters;
 
+    private Location mLastLocation;
+    private LocationManager mLocationManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -53,15 +60,17 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
         DataUtility.setContext(this);
 
+        // Toolbar
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
+        // Navigation Bar
         mNavView = (BottomNavigationView) findViewById(R.id.navigation);
         mNavView.setSelectedItemId(R.id.navigation_suggest);
         mNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        // Pages
         mFilters = new ArrayList<ListFilter<DataListItem>>();
-
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         mFragmentPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), this);
         mViewPager.setAdapter(mFragmentPagerAdapter);
@@ -70,10 +79,14 @@ public class MainActivity extends AppCompatActivity implements
         mViewPager.setPageMargin(20);
         //mViewPager.setPageMarginDrawable(R.color.colorPrimaryDark);
 
+        // Filters
         filterBox = (EditText) findViewById(R.id.filter_box);
         filterBox.addTextChangedListener(mOnFilterChangeListener);
         Button filterButton = (Button) findViewById(R.id.filter_button);
         filterButton.setOnClickListener(mOnFilterButtonListener);
+
+        // Location Manager
+        LocationManager.start(this, mBroadcastReciever);
 
 
         loadStoreItems();
@@ -158,6 +171,15 @@ public class MainActivity extends AppCompatActivity implements
         public void onPageScrollStateChanged(int state)
         {
 
+        }
+    };
+
+    private BroadcastReceiver mBroadcastReciever = new BroadcastReceiver()
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            System.out.println("Recieved Location: " + com.ingwersen.kyle.cs125_project.location.LocationManager.getLocation());
         }
     };
 
