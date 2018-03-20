@@ -71,6 +71,9 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         DataUtility.setContext(this);
+        DataModel.init(this);
+        DataModel.init_totals();
+        DataModel.init_user();
 
         // Toolbar
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -96,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements
         filterBox.addTextChangedListener(mOnFilterChangeListener);
         Button filterButton = (Button) findViewById(R.id.filter_button);
         filterButton.setOnClickListener(mOnFilterButtonListener);
+        updateListFilters();
 
         // Location Manager
         LocationManager.start(this, mLocationChangedListener);
@@ -324,7 +328,7 @@ public class MainActivity extends AppCompatActivity implements
     {
         // Move Item to Suggestions
         item.state = DataListItem.DataItemState.SUGGESTED;
-        item.increment();
+        item.incrementUser();
         updateListFilters();
     }
 

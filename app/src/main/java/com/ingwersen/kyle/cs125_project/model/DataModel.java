@@ -1,16 +1,16 @@
 package com.ingwersen.kyle.cs125_project.model;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 
+import com.ingwersen.kyle.cs125_project.R;
 import com.ingwersen.kyle.cs125_project.Util;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
+import java.io.File;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Helper class for providing sample name for user interfaces created by
@@ -21,129 +21,139 @@ import java.util.Map;
 public class DataModel
 {
 
-    /**
-     * An array of sample (dummy) items.
-     */
     public static final List<DataListItem> ITEMS = new ArrayList<DataListItem>();
+    public static final List<String> HEADERS = new ArrayList<String>();
+    public static Context mContext;
 
-    /**
-     * A map of sample (dummy) items, by ID.
-     */
-    public static final Map<String, DataListItem> ITEM_MAP = new HashMap<String, DataListItem>();
-
-    private static final int COUNT = 25;
-
-    static
+    public static void init(Context context)
     {
-        // Add some sample items.
-        // TODO: BUILD ACTUAL ITEMS
-        for (int i = 1; i <= COUNT; i++)
+        mContext = context;
+        try
         {
-            addItem(createDataListItem(i));
+            HEADERS.clear();
+            ITEMS.clear();
+            HEADERS.addAll(Util.parseCsv(mContext.getResources().openRawResource(R.raw.headers)).get(0));
+            for (int i = 0, len = HEADERS.size(); i < len; ++i)
+            {
+                ITEMS.add(new DataListItem(
+                        String.valueOf(i),  // Position
+                        HEADERS.get(i)      // Name
+                ));
+            }
+        }
+        catch (Exception e)
+        {
+            Log.e("DataModel", "Error Initializing:\n" + e);
         }
     }
 
-    private static void addItem(DataListItem item)
+    public static void init_totals()
     {
-        ITEMS.add(item);
-        ITEM_MAP.put(item.id, item);
-    }
-
-    private static DataListItem createDataListItem(int position)
-    {
-        // TODO: BUILD ACTUAL ITEMS
-        return new DataListItem(String.valueOf(position), "Item" + position, makeDetails(position));
-    }
-
-    private static String makeDetails(int position)
-    {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Details about Item: ").append(position);
-        for (int i = 0; i < position; i++)
+        try
         {
-            builder.append("\nMore details information here.");
+            List<List<String>> totals = Util.parseCsv(mContext.getResources().openRawResource(R.raw.user_totals));
+            for (int i = 0, len = totals.size(); i < len; ++i)
+            {
+                DataListItem item = ITEMS.get(i);
+                item.totalMean = Double.parseDouble(totals.get(i).get(0));
+                item.totalCount = (int) Double.parseDouble(totals.get(i).get(1));
+            }
         }
-        return builder.toString();
+        catch (Exception e)
+        {
+            Log.e("DataModel", "Error Initializing Totals:\n" + e);
+        }
     }
 
-    /**
-     * A dummy item representing a piece of name.
-     */
+    public static void init_user()
+    {
+        // Reset Previous Data
+        for (DataListItem item : ITEMS)
+        {
+            item.userCount = 0;
+        }
+
+        try
+        {
+            List<List<String>> user = Util.parseCsv(mContext.getResources().openRawResource(R.raw.user0));
+            for (int i = 0, len = user.size(); i < len; ++i)
+            {
+                int k = (int) Double.parseDouble(user.get(i).get(0));
+                DataListItem item = ITEMS.get(k);
+                item.userMean = Double.parseDouble(user.get(i).get(1));
+                item.userCount = (int) Double.parseDouble(user.get(i).get(2));
+                item.userLast = ZonedDateTime.now().plusSeconds((int) Double.parseDouble(user.get(i).get(3))); // Negative Value
+            }
+        }
+        catch (Exception e)
+        {
+            Log.e("DataModel", "Error Initializing User:\n" + e);
+        }
+    }
+
     public static class DataListItem
     {
         public final String id;
         public final String name;
-        public final String details;
 
-        public int count;
-        public float timeMean;
-        public float timeStdDev;
-        public ZonedDateTime timeLast;
-        public float utility;
+        public int userCount;
+        public int totalCount;
+        public double userMean;
+        public double totalMean;
+        public ZonedDateTime userLast;
+        public double userUtility;
 
         public DataItemState state;
 
-        public DataListItem(String id, String name, String details)
+        public DataListItem(String id, String name)
         {
             this.id = id;
             this.name = name;
-            this.details = details;
 
-            this.count = 0;
-            this.timeMean = 0f;
-            this.timeStdDev = 0f;
-            this.timeLast = ZonedDateTime.now();
-            this.utility = 0f;
+            this.userCount = 0;
+            this.totalCount = 0;
+            this.userMean = 0f;
+            this.totalMean = 0f;
+            this.userLast = ZonedDateTime.now();
+            this.userUtility = 0f;
 
             this.state = DataItemState.SUGGESTED;
         }
 
-        private DataListItem(String id, String name, String details, int count, float timeMean,
-                             float timeStdDev, ZonedDateTime timeLast, float utility, DataItemState state)
-        {
-            this.id = id;
-            this.name = name;
-            this.details = details;
-
-            this.count = count;
-            this.timeMean = timeMean;
-            this.timeStdDev = timeStdDev;
-            this.timeLast = timeLast;
-            this.utility = utility;
-
-            this.state = state;
-        }
-
-        public void increment()
+        public void incrementUser()
         {
             // Last Time
             ZonedDateTime now = Util.currentTime();
-            float timeSince = timeSince();
-            timeLast = now;
+            double timeSince = userSince();
+            userLast = now;
 
             // Count
-            ++count;
+            ++userCount;
 
             // Mean
-            timeMean += (timeSince - timeMean) / count;
+            userMean += (timeSince - userMean) / userCount;
 
             // Variance
-            timeStdDev = timeMean / 2f;  // [0,mean] = 2 std.dev; [mean,2*mean] = 2 std.dev
+            //timeStdDev = timeMean / 2f;  // [0,mean] = 2 std.dev; [mean,2*mean] = 2 std.dev
             /*
             // https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
             if (count > 1)
             {
                 float var = timeStdDev * timeStdDev;
                 var = (count - 2) / (count - 1) * var +
-                        (timeSince - timeMean) * (timeSince - timeMean) / count;
+                        (userSince - timeMean) * (userSince - timeMean) / count;
                 timeStdDev = (float) Math.sqrt(var);
             }
             */
         }
 
 
-        public float timeSince() {
-            return Util.timeSince(timeLast).getSeconds();
+        public double userSince() {
+            return Util.timeSince(userLast).getSeconds();
+        }
+        public double userStdDev()
+        {
+            return userMean / 2;
         }
 
         @Override
@@ -157,7 +167,7 @@ public class DataModel
             SUGGESTED, IN_CART, HIDDEN
         }
 
-        public Color getColor() { return DataUtility.itemColor(timeSince(), timeMean, timeStdDev);}
+        public Color getColor() { return DataUtility.itemColor(userSince(), userMean, userStdDev());}
     }
 
 }

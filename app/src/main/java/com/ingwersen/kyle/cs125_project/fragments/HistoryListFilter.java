@@ -31,7 +31,7 @@ public class HistoryListFilter extends ListFilter<DataListItem>
         {
             if (item.state != DataListItem.DataItemState.HIDDEN
                     && (mFilter.size() == 0 || mFilter.contains(item.name.toLowerCase()))
-                    && (item.count > 0))
+                    && (item.userCount > 0))
             {
                 mOutput.add(item);
             }
@@ -39,7 +39,7 @@ public class HistoryListFilter extends ListFilter<DataListItem>
         if (mOutput.size() > 1)
         {
             // Reverse history order. Newest -> Oldest.
-            mOutput.sort((left, right) -> -left.timeLast.compareTo(right.timeLast));
+            mOutput.sort((left, right) -> -left.userLast.compareTo(right.userLast));
         }
         if (mAdapter != null)
         {

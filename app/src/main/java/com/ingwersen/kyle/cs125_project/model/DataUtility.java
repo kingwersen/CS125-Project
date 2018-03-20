@@ -19,7 +19,7 @@ import java.util.List;
 
 public class DataUtility
 {
-    public static final float[] WEIGHTS = { 1f };
+    public static final double[] WEIGHTS = { 1f };
 
     public static void updateUtility(List<DataListItem> items)
     {
@@ -27,21 +27,25 @@ public class DataUtility
         {
             // Calculate and Modify item.utility
             // 1. Utility from distance from expected mean
-            float dist = (float) Util.timeSince(item.timeLast).getSeconds();
-            float fromHistory = item.count > 0 ? pretendGaussianDensity(dist, item.timeMean, item.timeStdDev) : 0;
+            double fromHistory = 0;
+            if (item.userCount > 0)
+            {
+                float x = (float) Util.timeSince(item.userLast).getSeconds();
+                fromHistory = pretendGaussianDensity(x, item.userMean, item.userStdDev());
+            }
 
             // 2. ...
 
             // 3. ...
 
-            item.utility = fromHistory * WEIGHTS[0]; // + ... + ...
+            item.userUtility = fromHistory * WEIGHTS[0]; // + ... + ...
         }
     }
 
-    public static float pretendGaussianDensity(float x, float mean, float sd)
+    public static double pretendGaussianDensity(double x, double mean, double sd)
     {
-        float diff = Math.abs(x - mean);
-        return Math.max(1 - diff / sd / 2f, 0f); // Careful: sd == 0 when n < 2.
+        double diff = Math.abs(x - mean);
+        return Math.max(1 - diff / sd / 2, 0); // Careful: sd == 0 when n < 2.
     }
 
     private static Context mContext;
@@ -59,22 +63,23 @@ public class DataUtility
         };
     }
 
-    private static Color gradientBetween(Color a, Color b, float p)
+    private static Color gradientBetween(Color a, Color b, double p)
     {
+        float p2 = (float) p;
         return Color.valueOf(
-                a.red()*(1-p) + b.red()*p,
-                a.green()*(1-p) + b.green()*p,
-                a.blue()*(1-p) + b.blue()*p
+                a.red()*(1-p2) + b.red()*p2,
+                a.green()*(1-p2) + b.green()*p2,
+                a.blue()*(1-p2) + b.blue()*p2
         );
     }
 
-    public static Color itemColor(float timeSince, float mean, float sd)
+    public static Color itemColor(double timeSince, double mean, double sd)
     {
         if (mGradient == null) {
             throw new InstantiationError("Must set context of DataUtility before use.");
         }
 
-        float percent = timeSince / 4 / sd;
+        double percent = timeSince / 4 / sd;
         if (percent < 0.0)
         {
             return mGradient[0];

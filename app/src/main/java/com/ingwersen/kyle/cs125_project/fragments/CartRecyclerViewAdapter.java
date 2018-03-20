@@ -48,8 +48,8 @@ public class CartRecyclerViewAdapter extends RecyclerView.Adapter<CartRecyclerVi
     {
         holder.mItem = mValues.get(position);
         holder.mNameView.setText(mValues.get(position).name);
-        holder.mExpectView.setText(Util.formatTime(Duration.ofSeconds((long) mValues.get(position).timeMean)));
-        holder.mLastView.setText(Util.formatTime(Util.timeSince(mValues.get(position).timeLast)));
+        holder.mExpectView.setText(Util.formatTime(Duration.ofSeconds((long) mValues.get(position).userMean)));
+        holder.mLastView.setText(Util.formatTime(Util.timeSince(mValues.get(position).userLast)));
         holder.mLastView.setTextColor(mValues.get(position).getColor().toArgb());
 
         holder.mView.setOnClickListener(new View.OnClickListener()

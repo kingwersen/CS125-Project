@@ -1,7 +1,17 @@
 package com.ingwersen.kyle.cs125_project;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.time.Duration;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by kyle on 3/9/2018.
@@ -42,5 +52,38 @@ public class Util
     public static Duration timeSince(ZonedDateTime time)
     {
         return Duration.between(time, currentTime());
+    }
+
+    public static List<List<String>> parseCsv(InputStream stream)
+    {
+        // https://www.mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
+        BufferedReader br = null;
+        String line = "";
+        String delimiter = "[,\\s]";
+        List<List<String>> result = new ArrayList<>();
+
+        try
+        {
+            br = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
+            while ((line = br.readLine()) != null)
+            {
+                result.add(Arrays.asList(line.split(delimiter)));
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return result;
     }
 }
