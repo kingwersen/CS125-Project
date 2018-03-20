@@ -34,10 +34,24 @@ public class SuggestListFilter extends ListFilter<DataListItem>
         mOutput.clear();
         for (DataListItem item : mValues)
         {
-            if (item.state == DataListItem.DataItemState.SUGGESTED &&
-                    (mFilter.size() == 0 || mFilter.contains(item.name.toLowerCase())))
+            if (item.state == DataListItem.DataItemState.SUGGESTED)
             {
-                mOutput.add(item);
+                if (mFilter.size() == 0)
+                {
+                    mOutput.add(item);
+                }
+                else
+                {
+                    String nameLower = item.name.toLowerCase();
+                    for (String filter : mFilter)
+                    {
+                        if (nameLower.contains(filter))
+                        {
+                            mOutput.add(item);
+                            break;
+                        }
+                    }
+                }
             }
         }
         if (mOutput.size() > 1)

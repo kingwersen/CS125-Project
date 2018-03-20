@@ -29,10 +29,24 @@ public class CartListFilter extends ListFilter<DataListItem>
         mOutput.clear();
         for (DataListItem item : mValues)
         {
-            if (item.state == DataListItem.DataItemState.IN_CART &&
-                    (mFilter.size() == 0 || mFilter.contains(item.name.toLowerCase())))
+            if (item.state == DataListItem.DataItemState.IN_CART)
             {
-                mOutput.add(item);
+                if (mFilter.size() == 0)
+                {
+                    mOutput.add(item);
+                }
+                else
+                {
+                    String nameLower = item.name.toLowerCase();
+                    for (String filter : mFilter)
+                    {
+                        if (nameLower.contains(filter))
+                        {
+                            mOutput.add(item);
+                            break;
+                        }
+                    }
+                }
             }
         }
         if (mAdapter != null)
