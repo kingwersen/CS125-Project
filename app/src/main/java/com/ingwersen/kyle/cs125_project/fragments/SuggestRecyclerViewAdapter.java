@@ -48,12 +48,13 @@ public class SuggestRecyclerViewAdapter extends RecyclerView.Adapter<SuggestRecy
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position)
     {
-        holder.mItem = mValues.get(position);
-        holder.mNameView.setText(mValues.get(position).name);
-        holder.mExpectView.setText(Util.formatTime(Duration.ofSeconds((long) mValues.get(position).userMean)));
-        holder.mLastView.setText(Util.formatTime(Util.timeSince(mValues.get(position).userLast)));
-        holder.mLastView.setTextColor(mValues.get(position).getColor().toArgb());
-        holder.mUtilityView.setText(String.format("%.2f", mValues.get(position).userUtility));
+        DataListItem item = mValues.get(position);
+        holder.mItem = item;
+        holder.mNameView.setText(item.name);
+        holder.mExpectView.setText(item.userCount > 1 ? Util.formatTime(Duration.ofSeconds((long) item.userMean)) : "N/A");
+        holder.mLastView.setText(item.userCount > 1 ? Util.formatTime(Util.timeSince(item.userLast)) : "N/A");
+        holder.mLastView.setTextColor(item.getColor().toArgb());
+        holder.mUtilityView.setText(String.format("%.2f", item.userUtility));
 
         holder.mView.setOnClickListener(new View.OnClickListener()
         {

@@ -19,26 +19,33 @@ import java.util.List;
 
 public class DataUtility
 {
-    public static final double[] WEIGHTS = { 1f };
+    public static final double[] WEIGHTS = { 1.0, 1.0 };
 
     public static void updateUtility(List<DataListItem> items)
     {
         for (DataListItem item : items)
         {
             // Calculate and Modify item.utility
-            // 1. Utility from distance from expected mean
-            double fromHistory = 0;
-            if (item.userCount > 0)
+            // 1. Utility from distance from expected user mean
+            double fromUserHistory = 0;
+            if (item.userCount > 1)
             {
                 float x = (float) Util.timeSince(item.userLast).getSeconds();
-                fromHistory = pretendGaussianDensity(x, item.userMean, item.userStdDev());
+                fromUserHistory = pretendGaussianDensity(x, item.userMean, item.userStdDev());
             }
 
-            // 2. ...
+            // 2. Utility from distance from expected total mean
+            double fromOthersHistory = 0;
+            if (item.userCount > 1 && item.totalCount > 1)
+            {
+                float x = (float) Util.timeSince(item.userLast).getSeconds();
+                fromOthersHistory = pretendGaussianDensity(x, item.totalMean, item.totalStdDev());
+            }
 
             // 3. ...
 
-            item.userUtility = fromHistory * WEIGHTS[0]; // + ... + ...
+            item.userUtility = fromUserHistory * WEIGHTS[0]
+                + fromOthersHistory * WEIGHTS[1]; // + ... + ...
         }
     }
 

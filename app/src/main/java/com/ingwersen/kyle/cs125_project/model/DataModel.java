@@ -45,6 +45,8 @@ public class DataModel
         {
             Log.e("DataModel", "Error Initializing:\n" + e);
         }
+        init_totals();
+        init_user();
     }
 
     public static void init_totals()
@@ -154,6 +156,10 @@ public class DataModel
         public double userStdDev()
         {
             return userMean / 2;
+        }
+        public double totalStdDev()
+        {
+            return totalMean / 2;
         }
 
         @Override

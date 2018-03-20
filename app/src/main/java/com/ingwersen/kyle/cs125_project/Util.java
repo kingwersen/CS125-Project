@@ -31,7 +31,7 @@ public class Util
             long minutes = difference.toMinutes();
             return String.valueOf(minutes) + " Minute" + (minutes == 1 ? "" : "s");
         }
-        else if (difference.toHours() < 24)
+        else if (difference.toHours() < 48)
         {
             long hours = difference.toHours();
             return String.valueOf(hours) + " Hour" + (hours == 1 ? "" : "s");

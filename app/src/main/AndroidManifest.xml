@@ -21,7 +21,11 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <service android:name=".location.LocationManager$LocationService" />
+
+        <service android:name=".location.LocationManager$LocationService"/>
+
+        <activity android:name=".VoiceRecognitionActivity">
+        </activity>
     </application>
 
 </manifest>
