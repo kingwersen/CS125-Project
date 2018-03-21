@@ -7,7 +7,9 @@ import android.util.Log;
 import com.ingwersen.kyle.cs125_project.R;
 import com.ingwersen.kyle.cs125_project.Util;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,6 +93,79 @@ public class DataModel
         {
             Log.e("DataModel", "Error Initializing User:\n" + e);
         }
+
+        init_collab();
+    }
+
+    public static void init_collab()
+    {
+        // TODO: Optimize? Put online?
+        try
+        {
+            List<List<String>> allUsers = Util.parseCsv(mContext.getResources().openRawResource(R.raw.allusers));
+            int n_users = (int) Double.parseDouble(allUsers.get(allUsers.size()-1).get(0))+1;
+            List<Double> userDiff = new ArrayList<>(n_users);
+            for (int i = 0; i < n_users; ++i) userDiff.add(0.0);
+            // WARNING: Assuming last item in list is last user ^^^.
+
+            // Get Inverse Difference between users' item means.
+            for (List<String> itemData : allUsers)
+            {
+                int i = (int) Double.parseDouble(itemData.get(0));  // User Number
+                int k = (int) Double.parseDouble(itemData.get(1));  // Item Number
+                double userMean = ITEMS.get(k).userMean + 1;
+                double otherMean = Double.parseDouble(itemData.get(2)) + 1;
+                double div = userMean / otherMean;
+                double diff = Math.log(div >= 1 ? div : 1 / div) + 1;  // IDF
+
+                // TODO: Get Difference from ALL items. This works for now though.
+                userDiff.set(i, userDiff.get(i) + diff);
+            }
+
+            // Normalize Differences
+            double maxDiff = 0;
+            for (double diff : userDiff)
+            {
+                maxDiff = Math.max(diff, maxDiff);
+            }
+            for (int i = 0, len = userDiff.size(); i < len; ++i)
+            {
+                userDiff.set(i, userDiff.get(i) / maxDiff);
+            }
+
+            // Construct Un-Normalized Collab Utility
+            for (int j = 0, len = ITEMS.size(); j < len; ++j)
+            {
+                DataListItem item = ITEMS.get(j);
+                for (List<String> itemData : allUsers)
+                {
+                    int k = (int) Double.parseDouble(itemData.get(1));  // Item Number
+                    if (j == k)
+                    {
+                        int i = (int) Double.parseDouble(itemData.get(0));  // User Number
+
+                        // If the user bought the item, suggest it, with a scale based on how
+                        // similar the users are.
+                        item.totalUtility += userDiff.get(i);
+                    }
+                }
+            }
+
+            // Normalize Utility
+            double maxUtility = 0;
+            for (DataListItem item : ITEMS)
+            {
+                maxUtility = Math.max(item.totalUtility, maxUtility);
+            }
+            for (DataListItem item : ITEMS)
+            {
+                item.totalUtility /= maxUtility;
+            }
+        }
+        catch (Exception e)
+        {
+            Log.e("DataModel", "Error Initializing User:\n" + e);
+        }
     }
 
     public static class DataListItem
@@ -104,6 +179,7 @@ public class DataModel
         public double totalMean;
         public ZonedDateTime userLast;
         public double userUtility;
+        public double totalUtility;
 
         public DataItemState state;
 
@@ -118,6 +194,7 @@ public class DataModel
             this.totalMean = 0f;
             this.userLast = ZonedDateTime.now();
             this.userUtility = 0f;
+            this.totalUtility = 0f;
 
             this.state = DataItemState.SUGGESTED;
         }

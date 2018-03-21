@@ -19,13 +19,12 @@ import java.util.List;
 
 public class DataUtility
 {
-    public static final double[] WEIGHTS = { 1.0, 1.0 };
+    public static final double[] WEIGHTS = { 1.0, 1.0, 1.0 };
 
     public static void updateUtility(List<DataListItem> items)
     {
         for (DataListItem item : items)
         {
-            // Calculate and Modify item.utility
             // 1. Utility from distance from expected user mean
             double fromUserHistory = 0;
             if (item.userCount > 1)
@@ -42,10 +41,14 @@ public class DataUtility
                 fromOthersHistory = pretendGaussianDensity(x, item.totalMean, item.totalStdDev());
             }
 
-            // 3. ...
+            // 3. Utility from suggesting similar users' items
+            double fromSimilarHistory = item.totalUtility;
 
+
+            // Compute Weighted Sum
             item.userUtility = fromUserHistory * WEIGHTS[0]
-                + fromOthersHistory * WEIGHTS[1]; // + ... + ...
+                + fromOthersHistory * WEIGHTS[1]
+                + fromSimilarHistory * WEIGHTS[2]; // + ... + ...
         }
     }
 
