@@ -31,6 +31,7 @@ public class DataUtility
             {
                 float x = (float) Util.timeSince(item.userLast).getSeconds();
                 fromUserHistory = pretendGaussianDensity(x, item.userMean, item.userStdDev());
+                item.util1 = fromUserHistory;
             }
 
             // 2. Utility from distance from expected total mean
@@ -39,10 +40,12 @@ public class DataUtility
             {
                 float x = (float) Util.timeSince(item.userLast).getSeconds();
                 fromOthersHistory = pretendGaussianDensity(x, item.totalMean, item.totalStdDev());
+                item.util2 = fromOthersHistory;
             }
 
             // 3. Utility from suggesting similar users' items
             double fromSimilarHistory = item.totalUtility;
+            item.util3 = fromSimilarHistory;
 
 
             // Compute Weighted Sum

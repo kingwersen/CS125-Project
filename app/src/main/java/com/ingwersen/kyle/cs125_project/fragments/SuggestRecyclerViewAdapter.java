@@ -13,6 +13,8 @@ import com.ingwersen.kyle.cs125_project.Util;
 import com.ingwersen.kyle.cs125_project.model.DataModel.DataListItem;
 import com.ingwersen.kyle.cs125_project.model.DataUtility;
 
+import org.w3c.dom.Text;
+
 import java.time.Duration;
 import java.util.List;
 
@@ -56,6 +58,11 @@ public class SuggestRecyclerViewAdapter extends RecyclerView.Adapter<SuggestRecy
         holder.mLastView.setTextColor(item.getColor().toArgb());
         holder.mUtilityView.setText(String.format("%.2f", item.userUtility));
 
+        holder.mUtility1.setText(String.format("%.2f", item.util1));
+        holder.mUtility2.setText(String.format("%.2f", item.util2));
+        holder.mUtility3.setText(String.format("%.2f", item.util3));
+        holder.mExpect2.setText(item.totalCount > 1 ? Util.formatTime(Duration.ofSeconds((long) item.totalMean)) : "N/A");
+
         holder.mView.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -84,6 +91,12 @@ public class SuggestRecyclerViewAdapter extends RecyclerView.Adapter<SuggestRecy
         public final TextView mExpectView;
         public final TextView mLastView;
         public final TextView mUtilityView;
+
+        public final TextView mUtility1;
+        public final TextView mUtility2;
+        public final TextView mUtility3;
+        public final TextView mExpect2;
+
         public DataListItem mItem;
 
         public ViewHolder(View view)
@@ -94,6 +107,11 @@ public class SuggestRecyclerViewAdapter extends RecyclerView.Adapter<SuggestRecy
             mExpectView = (TextView) view.findViewById(R.id.item_exp);
             mLastView = (TextView) view.findViewById(R.id.item_last);
             mUtilityView = (TextView) view.findViewById(R.id.item_utility);
+
+            mUtility1 = (TextView) view.findViewById(R.id.item_util1);
+            mUtility2 = (TextView) view.findViewById(R.id.item_util2);
+            mUtility3 = (TextView) view.findViewById(R.id.item_util3);
+            mExpect2 = (TextView) view.findViewById(R.id.item_exp2);
         }
 
         @Override

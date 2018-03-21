@@ -181,6 +181,10 @@ public class DataModel
         public double userUtility;
         public double totalUtility;
 
+        public double util1;
+        public double util2;
+        public double util3;
+
         public DataItemState state;
 
         public DataListItem(String id, String name)
@@ -190,11 +194,15 @@ public class DataModel
 
             this.userCount = 0;
             this.totalCount = 0;
-            this.userMean = 0f;
-            this.totalMean = 0f;
+            this.userMean = 0.0;
+            this.totalMean = 0.0;
             this.userLast = ZonedDateTime.now();
-            this.userUtility = 0f;
-            this.totalUtility = 0f;
+            this.userUtility = 0.0;
+            this.totalUtility = 0.0;
+
+            this.util1 = 0.0;
+            this.util2 = 0.0;
+            this.util3 = 0.0;
 
             this.state = DataItemState.SUGGESTED;
         }

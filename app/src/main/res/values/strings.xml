@@ -16,4 +16,9 @@
     <string name="item_exp">Exp:</string>
     <string name="item_last">Last:</string>
     <string name="item_utility">Utility:</string>
+
+    <string name="item_util1">History:</string>
+    <string name="item_util2">Others:</string>
+    <string name="item_util3">Collab:</string>
+    <string name="item_exp2">Exp(Others):</string>
 </resources>
