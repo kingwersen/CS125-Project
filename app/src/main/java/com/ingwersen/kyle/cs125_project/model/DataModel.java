@@ -130,7 +130,7 @@ public class DataModel
             }
             for (int i = 0, len = userDiff.size(); i < len; ++i)
             {
-                userDiff.set(i, userDiff.get(i) / maxDiff);
+                userDiff.set(i, 1 - userDiff.get(i) / maxDiff);
             }
 
             // Construct Un-Normalized Collab Utility
